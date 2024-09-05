@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medicalapp/pages/login_page.dart';
+import 'package:medicalapp/pages/main_page.dart';
 import 'package:medicalapp/pages/register_page.dart';
 import 'package:medicalapp/pages/splash_page.dart';
 
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
         '/splash': (context) => const SplashPage(),
         '/login': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
+        '/home': (_) => const MainPage(),
       },
     );
   }
