@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medicalapp/pages/detail_chat_page.dart';
 import 'package:medicalapp/pages/login_page.dart';
 import 'package:medicalapp/pages/main_page.dart';
 import 'package:medicalapp/pages/register_page.dart';
@@ -17,10 +18,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/splash',
       routes: {
-        '/splash': (context) => const SplashPage(),
-        '/login': (context) => const LoginPage(),
-        '/register': (context) => const RegisterPage(),
+        '/splash': (_) => const SplashPage(),
+        '/login': (_) => const LoginPage(),
+        '/register': (_) => const RegisterPage(),
         '/home': (_) => const MainPage(),
+        '/detail-chat': (_) => const DetailChatPage(),
       },
     );
   }
