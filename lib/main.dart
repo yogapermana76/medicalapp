@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medicalapp/pages/cart_page.dart';
+import 'package:medicalapp/pages/checkout_page.dart';
+import 'package:medicalapp/pages/checkout_success_page.dart';
 import 'package:medicalapp/pages/detail_chat_page.dart';
 import 'package:medicalapp/pages/login_page.dart';
 import 'package:medicalapp/pages/main_page.dart';
@@ -27,6 +29,8 @@ class MyApp extends StatelessWidget {
         '/detail-chat': (_) => const DetailChatPage(),
         '/medicine_detail': (_) => const MedicineDetailPage(),
         '/cart': (_) => const CartPage(),
+        '/checkout': (_) => const CheckoutPage(),
+        '/checkout-success': (_) => const CheckoutSuccessPage(),
       },
     );
   }
