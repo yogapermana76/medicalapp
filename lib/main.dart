@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medicalapp/pages/cart_page.dart';
 import 'package:medicalapp/pages/detail_chat_page.dart';
 import 'package:medicalapp/pages/login_page.dart';
 import 'package:medicalapp/pages/main_page.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         '/home': (_) => const MainPage(),
         '/detail-chat': (_) => const DetailChatPage(),
         '/medicine_detail': (_) => const MedicineDetailPage(),
+        '/cart': (_) => const CartPage(),
       },
     );
   }
