@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medicalapp/theme.dart';
+import 'package:medicalapp/pages/home/home_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -106,7 +107,7 @@ class _MainPageState extends State<MainPage> {
     Widget body() {
       switch (currentIndex) {
         case 0:
-          return Container();
+          return const HomePage();
         case 1:
           return Container();
         case 2:
