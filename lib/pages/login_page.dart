@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:medicalapp/theme.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     Widget header() {
       return Container(
-        margin: const EdgeInsets.only(top: 30),
+        margin: EdgeInsets.only(top: defaultMargin),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -136,9 +131,9 @@ class _LoginPageState extends State<LoginPage> {
       return Container(
         height: 50,
         width: double.infinity,
-        margin: const EdgeInsets.only(top: 30),
+        margin: EdgeInsets.only(top: defaultMargin),
         child: TextButton(
-          onPressed: () {},
+          onPressed: () => Navigator.pushNamed(context, '/home'),
           style: TextButton.styleFrom(
             backgroundColor: primaryColor,
             shape: RoundedRectangleBorder(
@@ -158,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
 
     Widget footer() {
       return Container(
-        margin: const EdgeInsets.symmetric(vertical: 30),
+        margin: EdgeInsets.symmetric(vertical: defaultMargin),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -167,7 +162,7 @@ class _LoginPageState extends State<LoginPage> {
               style: subtitleTextStyle.copyWith(fontSize: 12),
             ),
             GestureDetector(
-              onTap: () => Navigator.pushNamed(context, '/registration'),
+              onTap: () => Navigator.pushNamed(context, '/register'),
               child: Text(
                 'Register',
                 style: purpleTextStyle.copyWith(
