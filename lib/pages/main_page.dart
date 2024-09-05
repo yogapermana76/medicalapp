@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medicalapp/pages/home/chat_page.dart';
+import 'package:medicalapp/pages/home/medicine_page.dart';
 import 'package:medicalapp/theme.dart';
 import 'package:medicalapp/pages/home/home_page.dart';
 
@@ -81,7 +82,7 @@ class _MainPageState extends State<MainPage> {
                     ),
                     child: Icon(Icons.medical_services,
                         size: 24,
-                        color: currentIndex == 3
+                        color: currentIndex == 2
                             ? primaryColor
                             : const Color(0xff808191)),
                   ),
@@ -112,7 +113,7 @@ class _MainPageState extends State<MainPage> {
         case 1:
           return const ChatPage();
         case 2:
-          return Container();
+          return const MedicinePage();
         case 3:
           return Container();
         default:
