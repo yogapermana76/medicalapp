@@ -10,33 +10,37 @@ class DetailChatPage extends StatelessWidget {
     PreferredSizeWidget header() {
       return AppBar(
         backgroundColor: backgroundColor1,
+        automaticallyImplyLeading: false,
         centerTitle: false,
         toolbarHeight: 70,
         titleSpacing: 0,
-        title: Row(
-          children: [
-            Image.asset('assets/images/image_profile.png', width: 50),
-            const SizedBox(width: 12),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'John Doe',
-                  style: primaryTextStyle.copyWith(
-                    fontWeight: medium,
-                    fontSize: 14,
+        title: Padding(
+          padding: EdgeInsets.only(left: defaultMargin),
+          child: Row(
+            children: [
+              Image.asset('assets/images/image_profile.png', width: 50),
+              const SizedBox(width: 12),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Permana',
+                    style: primaryTextStyle.copyWith(
+                      fontWeight: medium,
+                      fontSize: 14,
+                    ),
                   ),
-                ),
-                Text(
-                  'Online',
-                  style: secondaryTextStyle.copyWith(
-                    fontWeight: light,
-                    fontSize: 14,
+                  Text(
+                    'Online',
+                    style: secondaryTextStyle.copyWith(
+                      fontWeight: light,
+                      fontSize: 14,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       );
     }
