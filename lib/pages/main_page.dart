@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medicalapp/pages/home/chat_page.dart';
 import 'package:medicalapp/theme.dart';
 import 'package:medicalapp/pages/home/home_page.dart';
 
@@ -109,7 +110,7 @@ class _MainPageState extends State<MainPage> {
         case 0:
           return const HomePage();
         case 1:
-          return Container();
+          return const ChatPage();
         case 2:
           return Container();
         case 3:
