@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:medicalapp/pages/detail_chat_page.dart';
 import 'package:medicalapp/pages/login_page.dart';
 import 'package:medicalapp/pages/main_page.dart';
+import 'package:medicalapp/pages/medicine_detail_page.dart';
 import 'package:medicalapp/pages/register_page.dart';
 import 'package:medicalapp/pages/splash_page.dart';
 
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         '/register': (_) => const RegisterPage(),
         '/home': (_) => const MainPage(),
         '/detail-chat': (_) => const DetailChatPage(),
+        '/medicine_detail': (_) => const MedicineDetailPage(),
       },
     );
   }
