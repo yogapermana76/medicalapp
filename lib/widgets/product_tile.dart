@@ -40,7 +40,7 @@ class ProductTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      medicine.name,
+                      medicine.name!,
                       style: primaryTextStyle.copyWith(
                         fontSize: 16,
                         fontWeight: semiBold,

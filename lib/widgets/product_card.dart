@@ -41,7 +41,7 @@ class ProductCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      medicine.name,
+                      medicine.name!,
                       style: blackTextStyle.copyWith(
                         fontSize: 18,
                         fontWeight: semiBold,

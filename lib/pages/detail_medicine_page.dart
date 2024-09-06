@@ -194,7 +194,7 @@ class _DetailMedicinePageState extends State<DetailMedicinePage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              widget.medicine.name,
+                              widget.medicine.name!,
                               style: primaryTextStyle.copyWith(
                                 fontSize: 18,
                                 fontWeight: semiBold,
@@ -245,7 +245,7 @@ class _DetailMedicinePageState extends State<DetailMedicinePage> {
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        widget.medicine.description,
+                        widget.medicine.description!,
                         style: subtitleTextStyle.copyWith(fontWeight: light),
                         textAlign: TextAlign.justify,
                       ),

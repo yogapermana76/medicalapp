@@ -41,7 +41,7 @@ class MedicineCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      medicine.name,
+                      medicine.name!,
                       style: primaryTextStyle.copyWith(
                         fontWeight: semiBold,
                       ),

@@ -1,16 +1,16 @@
 class MedicineModel {
-  final int id;
-  final String name;
-  final double price;
-  final String description;
-  final int stock;
+  final int? id;
+  final String? name;
+  final double? price;
+  final String? description;
+  final int? stock;
 
   MedicineModel({
-    required this.id,
-    required this.name,
-    required this.price,
-    required this.description,
-    required this.stock,
+    this.id,
+    this.name,
+    this.price,
+    this.description,
+    this.stock,
   });
 
   factory MedicineModel.fromJson(Map<String, dynamic> json) => MedicineModel(
