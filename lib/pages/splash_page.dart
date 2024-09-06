@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:medicalapp/providers/medicine_provider.dart';
 import 'package:medicalapp/theme.dart';
+import 'package:provider/provider.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -13,9 +15,16 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
-    Timer(const Duration(seconds: 3),
-        () => Navigator.pushNamed(context, '/login'));
+    getInit();
     super.initState();
+  }
+
+  getInit() async {
+    await Provider.of<MedicineProvider>(context, listen: false).getMedicines();
+    if (mounted) {
+      Timer(const Duration(seconds: 2),
+          () => Navigator.pushNamed(context, '/login'));
+    }
   }
 
   @override
