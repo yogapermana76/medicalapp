@@ -2,14 +2,14 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:medicalapp/theme.dart';
 
-class MedicineDetailPage extends StatefulWidget {
-  const MedicineDetailPage({super.key});
+class DetailMedicinePage extends StatefulWidget {
+  const DetailMedicinePage({super.key});
 
   @override
-  State<MedicineDetailPage> createState() => _MedicineDetailPageState();
+  State<DetailMedicinePage> createState() => _DetailMedicinePageState();
 }
 
-class _MedicineDetailPageState extends State<MedicineDetailPage> {
+class _DetailMedicinePageState extends State<DetailMedicinePage> {
   final List images = [
     'assets/images/obat_batuk.png',
     'assets/images/obat_batuk.png',
@@ -40,20 +40,6 @@ class _MedicineDetailPageState extends State<MedicineDetailPage> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: currentIndex == index ? primaryColor : const Color(0xffC4C4C4),
-        ),
-      );
-    }
-
-    Widget familiarShoesCard(String imageUrl) {
-      return Container(
-        width: 54,
-        height: 54,
-        margin: const EdgeInsets.only(right: 16),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(6),
-          image: DecorationImage(
-            image: AssetImage(imageUrl),
-          ),
         ),
       );
     }
