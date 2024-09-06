@@ -1,11 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:medicalapp/providers/auth_provider.dart';
 import 'package:medicalapp/theme.dart';
+import 'package:medicalapp/widgets/loading_button.dart';
+import 'package:provider/provider.dart';
 
-class RegisterPage extends StatelessWidget {
+class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
   @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  final _nameController = TextEditingController();
+  final _roleController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  bool _isLoading = false;
+
+  @override
   Widget build(BuildContext context) {
+    handleSignUp() async {
+      setState(() => _isLoading = true);
+
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+
+      bool isRegistered = await authProvider.register(
+        name: _nameController.text,
+        role: _roleController.text,
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+
+      if (isRegistered) {
+        Navigator.pushNamed(context, '/login');
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: alertColor,
+            content: const Text(
+              'Gagal Register!',
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
+      }
+
+      setState(() => _isLoading = false);
+    }
+
     Widget header() {
       return Container(
         margin: EdgeInsets.only(top: defaultMargin),
@@ -55,6 +99,7 @@ class RegisterPage extends StatelessWidget {
                     const SizedBox(width: 16),
                     Expanded(
                       child: TextFormField(
+                        controller: _nameController,
                         style: primaryTextStyle,
                         decoration: InputDecoration.collapsed(
                           hintText: 'Your Full Name',
@@ -99,6 +144,7 @@ class RegisterPage extends StatelessWidget {
                     const SizedBox(width: 16),
                     Expanded(
                       child: TextFormField(
+                        controller: _roleController,
                         style: primaryTextStyle,
                         decoration: InputDecoration.collapsed(
                           hintText: 'Your Role',
@@ -143,6 +189,7 @@ class RegisterPage extends StatelessWidget {
                     const SizedBox(width: 16),
                     Expanded(
                       child: TextFormField(
+                        controller: _emailController,
                         style: primaryTextStyle,
                         decoration: InputDecoration.collapsed(
                           hintText: 'Your Email Address',
@@ -187,6 +234,7 @@ class RegisterPage extends StatelessWidget {
                     const SizedBox(width: 16),
                     Expanded(
                       child: TextFormField(
+                        controller: _passwordController,
                         style: primaryTextStyle,
                         obscureText: true,
                         decoration: InputDecoration.collapsed(
@@ -210,7 +258,10 @@ class RegisterPage extends StatelessWidget {
         width: double.infinity,
         margin: EdgeInsets.only(top: defaultMargin),
         child: TextButton(
-          onPressed: () => Navigator.pushNamed(context, '/login'),
+          onPressed: () {
+            FocusManager.instance.primaryFocus?.unfocus();
+            handleSignUp();
+          },
           style: TextButton.styleFrom(
             backgroundColor: primaryColor,
             shape: RoundedRectangleBorder(
@@ -267,7 +318,7 @@ class RegisterPage extends StatelessWidget {
                 roleInput(),
                 emailInput(),
                 passwordInput(),
-                registerButton(),
+                _isLoading ? const LoadingButton() : registerButton(),
                 footer(),
               ],
             ),
@@ -275,5 +326,14 @@ class RegisterPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _roleController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }
