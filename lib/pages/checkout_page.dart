@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:medicalapp/providers/auth_provider.dart';
 import 'package:medicalapp/providers/cart_provider.dart';
 import 'package:medicalapp/providers/order_provider.dart';
@@ -28,24 +29,33 @@ class _CheckoutPageState extends State<CheckoutPage> {
         isLoading = true;
       });
 
+      // Lakukan operasi asinkron tanpa melibatkan `context`
       bool isCheckoutSuccess = await orderProvider.checkout(
         authProvider.user.token!,
         cartProvider.carts,
         cartProvider.totalPrice(),
       );
 
-      if (isCheckoutSuccess) {
+      // Setelah operasi selesai dan jika widget masih mounted
+      if (isCheckoutSuccess && mounted) {
         cartProvider.carts = [];
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          '/checkout-success',
-          (_) => false,
-        );
+
+        SchedulerBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              '/checkout-success',
+              (_) => false,
+            );
+          }
+        });
       }
 
-      setState(() {
-        isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
 
     PreferredSizeWidget header() {
