@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:medicalapp/pages/edit_profile_page.dart';
+import 'package:provider/provider.dart';
 import 'package:medicalapp/pages/cart_page.dart';
 import 'package:medicalapp/pages/checkout_page.dart';
 import 'package:medicalapp/pages/checkout_success_page.dart';
 import 'package:medicalapp/pages/detail_chat_page.dart';
 import 'package:medicalapp/pages/login_page.dart';
 import 'package:medicalapp/pages/main_page.dart';
-import 'package:medicalapp/pages/medicine_detail_page.dart';
+import 'package:medicalapp/pages/detail_medicine_page.dart';
 import 'package:medicalapp/pages/register_page.dart';
 import 'package:medicalapp/pages/splash_page.dart';
+import 'package:medicalapp/providers/auth_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,20 +21,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/splash',
-      routes: {
-        '/splash': (_) => const SplashPage(),
-        '/login': (_) => const LoginPage(),
-        '/register': (_) => const RegisterPage(),
-        '/home': (_) => const MainPage(),
-        '/detail-chat': (_) => const DetailChatPage(),
-        '/medicine_detail': (_) => const MedicineDetailPage(),
-        '/cart': (_) => const CartPage(),
-        '/checkout': (_) => const CheckoutPage(),
-        '/checkout-success': (_) => const CheckoutSuccessPage(),
-      },
-    );
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (_) => AuthProvider(),
+          ),
+        ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          initialRoute: '/splash',
+          routes: {
+            '/splash': (_) => const SplashPage(),
+            '/login': (_) => const LoginPage(),
+            '/register': (_) => const RegisterPage(),
+            '/home': (_) => const MainPage(),
+            '/detail-chat': (_) => const DetailChatPage(),
+            '/detail-medicine': (_) => const DetailMedicinePage(),
+            '/edit-profile': (_) => const EditProfilePage(),
+            '/cart': (_) => const CartPage(),
+            '/checkout': (_) => const CheckoutPage(),
+            '/checkout-success': (_) => const CheckoutSuccessPage(),
+          },
+        ));
   }
 }
