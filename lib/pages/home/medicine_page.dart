@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:medicalapp/providers/medicine_provider.dart';
 import 'package:medicalapp/theme.dart';
 import 'package:medicalapp/widgets/medicine_card.dart';
+import 'package:provider/provider.dart';
 
 class MedicinePage extends StatelessWidget {
   const MedicinePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final medicineProvider = Provider.of<MedicineProvider>(context);
+    final medicines = medicineProvider.medicines;
+
     Widget header() {
       return AppBar(
         backgroundColor: backgroundColor1,
@@ -82,11 +87,8 @@ class MedicinePage extends StatelessWidget {
           color: backgroundColor3,
           child: ListView(
             padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-            children: const [
-              MedicineCard(),
-              MedicineCard(),
-              MedicineCard(),
-            ],
+            children:
+                medicines.map((medicine) => MedicineCard(medicine)).toList(),
           ),
         ),
       );

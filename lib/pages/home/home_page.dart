@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medicalapp/providers/auth_provider.dart';
+import 'package:medicalapp/providers/medicine_provider.dart';
 import 'package:medicalapp/theme.dart';
 import 'package:medicalapp/widgets/product_card.dart';
 import 'package:medicalapp/widgets/product_tile.dart';
@@ -12,6 +13,9 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
     final user = authProvider.user;
+
+    final medicineProvider = Provider.of<MedicineProvider>(context);
+    final medicines = medicineProvider.medicines;
 
     Widget header() {
       return Container(
@@ -191,12 +195,9 @@ class HomePage extends StatelessWidget {
           child: Row(
             children: [
               SizedBox(width: defaultMargin),
-              const Row(
-                children: [
-                  ProductCard(),
-                  ProductCard(),
-                  ProductCard(),
-                ],
+              Row(
+                children:
+                    medicines.map((medicine) => ProductCard(medicine)).toList(),
               ),
             ],
           ),
@@ -224,13 +225,8 @@ class HomePage extends StatelessWidget {
     Widget newArrivals() {
       return Container(
         margin: const EdgeInsets.only(top: 14),
-        child: const Column(
-          children: [
-            ProductTile(),
-            ProductTile(),
-            ProductTile(),
-            ProductTile(),
-          ],
+        child: Column(
+          children: medicines.map((medicine) => ProductTile(medicine)).toList(),
         ),
       );
     }
