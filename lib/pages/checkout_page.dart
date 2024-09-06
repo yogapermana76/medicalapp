@@ -73,6 +73,35 @@ class _CheckoutPageState extends State<CheckoutPage> {
       );
     }
 
+    Widget checkoutButton() {
+      return Container(
+          padding: EdgeInsetsDirectional.symmetric(horizontal: defaultMargin),
+          child: isLoading
+              ? Container(
+                  margin: EdgeInsets.only(bottom: defaultMargin),
+                  child: const LoadingButton(),
+                )
+              : Container(
+                  height: 50,
+                  width: double.infinity,
+                  margin: EdgeInsets.symmetric(vertical: defaultMargin),
+                  decoration: BoxDecoration(
+                    color: primaryColor,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: TextButton(
+                    onPressed: () => handleCheckout(),
+                    child: Text(
+                      'Checkout Now',
+                      style: primaryTextStyle.copyWith(
+                        fontWeight: semiBold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ));
+    }
+
     Widget content() {
       return ListView(
         padding: EdgeInsets.symmetric(horizontal: defaultMargin),
@@ -173,7 +202,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
           // NOTE: PAYMENT SUMMARY
           Container(
-            margin: EdgeInsets.only(top: defaultMargin),
+            margin: EdgeInsetsDirectional.symmetric(
+              vertical: defaultMargin,
+            ),
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: backgroundColor4,
@@ -253,37 +284,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
               ],
             ),
           ),
-
-          // NOTE: CHECKOUT BUTTON
-          SizedBox(height: defaultMargin),
-          const Divider(
-            thickness: 1,
-            color: Color(0xff2E3141),
-          ),
-          isLoading
-              ? Container(
-                  margin: EdgeInsets.only(bottom: defaultMargin),
-                  child: const LoadingButton(),
-                )
-              : Container(
-                  height: 50,
-                  width: double.infinity,
-                  margin: EdgeInsets.symmetric(vertical: defaultMargin),
-                  decoration: BoxDecoration(
-                    color: primaryColor,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: TextButton(
-                    onPressed: () => handleCheckout(),
-                    child: Text(
-                      'Checkout Now',
-                      style: primaryTextStyle.copyWith(
-                        fontWeight: semiBold,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ),
         ],
       );
     }
@@ -292,6 +292,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
       backgroundColor: backgroundColor3,
       appBar: header(),
       body: content(),
+      bottomNavigationBar: checkoutButton(),
     );
   }
 }
