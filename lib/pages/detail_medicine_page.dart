@@ -127,10 +127,13 @@ class _DetailMedicinePageState extends State<DetailMedicinePage> {
                   onTap: () => Navigator.pop(context),
                   child: const Icon(Icons.chevron_left),
                 ),
-                Icon(
-                  Icons.shopping_bag,
-                  color: backgroundColor1,
-                ),
+                GestureDetector(
+                  onTap: () => Navigator.pushNamed(context, '/cart'),
+                  child: Icon(
+                    Icons.shopping_bag,
+                    color: backgroundColor1,
+                  ),
+                )
               ],
             ),
           ),
