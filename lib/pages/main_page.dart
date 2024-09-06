@@ -54,56 +54,59 @@ class _MainPageState extends State<MainPage> {
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
             ),
-            child: BottomNavigationBar(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              currentIndex: currentIndex,
-              showUnselectedLabels: false,
-              showSelectedLabels: false,
-              onTap: (value) => setState(() => currentIndex = value),
-              type: BottomNavigationBarType.fixed,
-              items: [
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.home,
-                    size: 24,
-                    color: currentIndex == 0
-                        ? primaryColor
-                        : const Color(0xff808191),
+            child: OverflowBox(
+              maxHeight: double.infinity,
+              child: BottomNavigationBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                currentIndex: currentIndex,
+                showUnselectedLabels: false,
+                showSelectedLabels: false,
+                onTap: (value) => setState(() => currentIndex = value),
+                type: BottomNavigationBarType.fixed,
+                items: [
+                  BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.home,
+                      size: 24,
+                      color: currentIndex == 0
+                          ? primaryColor
+                          : const Color(0xff808191),
+                    ),
+                    label: 'Home',
                   ),
-                  label: 'Home',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.chat,
-                    size: 24,
-                    color: currentIndex == 1
-                        ? primaryColor
-                        : const Color(0xff808191),
+                  BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.chat,
+                      size: 24,
+                      color: currentIndex == 1
+                          ? primaryColor
+                          : const Color(0xff808191),
+                    ),
+                    label: 'Chat',
                   ),
-                  label: 'Chat',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.medical_services,
-                    size: 24,
-                    color: currentIndex == 2
-                        ? primaryColor
-                        : const Color(0xff808191),
+                  BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.medical_services,
+                      size: 24,
+                      color: currentIndex == 2
+                          ? primaryColor
+                          : const Color(0xff808191),
+                    ),
+                    label: 'Medicine',
                   ),
-                  label: 'Medicine',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.person,
-                    size: 24,
-                    color: currentIndex == 3
-                        ? primaryColor
-                        : const Color(0xff808191),
+                  BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.person,
+                      size: 24,
+                      color: currentIndex == 3
+                          ? primaryColor
+                          : const Color(0xff808191),
+                    ),
+                    label: 'Profile',
                   ),
-                  label: 'Profile',
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
