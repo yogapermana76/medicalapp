@@ -1,11 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:medicalapp/providers/auth_provider.dart';
 import 'package:medicalapp/theme.dart';
+import 'package:medicalapp/widgets/loading_button.dart';
+import 'package:provider/provider.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  bool _isLoading = false;
+
+  @override
   Widget build(BuildContext context) {
+    handleSignIn() async {
+      setState(() => _isLoading = true);
+
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+
+      bool isSuccessLogin = await authProvider.login(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+
+      if (isSuccessLogin) {
+        Navigator.pushNamed(context, '/home');
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: alertColor,
+            content: const Text(
+              'Gagal Login!',
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
+      }
+
+      setState(() => _isLoading = false);
+    }
+
     Widget header() {
       return Container(
         margin: EdgeInsets.only(top: defaultMargin),
@@ -62,6 +102,7 @@ class LoginPage extends StatelessWidget {
                     const SizedBox(width: 16),
                     Expanded(
                       child: TextFormField(
+                        controller: _emailController,
                         style: primaryTextStyle,
                         decoration: InputDecoration.collapsed(
                           hintText: 'Your Email Address',
@@ -110,6 +151,7 @@ class LoginPage extends StatelessWidget {
                     const SizedBox(width: 16),
                     Expanded(
                       child: TextFormField(
+                        controller: _passwordController,
                         style: primaryTextStyle,
                         obscureText: true,
                         decoration: InputDecoration.collapsed(
@@ -133,7 +175,10 @@ class LoginPage extends StatelessWidget {
         width: double.infinity,
         margin: EdgeInsets.only(top: defaultMargin),
         child: TextButton(
-          onPressed: () => Navigator.pushNamed(context, '/home'),
+          onPressed: () {
+            FocusManager.instance.primaryFocus?.unfocus();
+            handleSignIn();
+          },
           style: TextButton.styleFrom(
             backgroundColor: primaryColor,
             shape: RoundedRectangleBorder(
@@ -188,7 +233,7 @@ class LoginPage extends StatelessWidget {
                 header(),
                 emailInput(),
                 passwordInput(),
-                signInButton(),
+                _isLoading ? const LoadingButton() : signInButton(),
                 footer(),
               ],
             ),
@@ -196,5 +241,12 @@ class LoginPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }
