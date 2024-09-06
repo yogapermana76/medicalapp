@@ -4,7 +4,7 @@ import 'package:medicalapp/models/user_model.dart';
 import 'package:http/http.dart' as http;
 
 class AuthService {
-  final String baseUrl = 'http://127.0.0.1:8000/api';
+  final String baseUrl = 'http://127.0.0.1:3000/api';
 
   Future<UserModel> register({
     required String name,
@@ -50,7 +50,7 @@ class AuthService {
       body: body,
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       final data = jsonDecode(response.body)['data'];
       final user = UserModel.fromJson(data['user']);
       user.token = 'Bearer ${data['access_token']}';

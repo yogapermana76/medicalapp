@@ -3,7 +3,7 @@ class UserModel {
   final String name;
   final String email;
   final String role;
-  late final String? token;
+  String? token;
 
   UserModel({
     required this.id,
