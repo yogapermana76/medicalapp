@@ -1,9 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:medicalapp/models/medicine_model.dart';
 import 'package:medicalapp/theme.dart';
 
 class DetailMedicinePage extends StatefulWidget {
-  const DetailMedicinePage({super.key});
+  const DetailMedicinePage(this.medicine, {super.key});
+
+  final MedicineModel medicine;
 
   @override
   State<DetailMedicinePage> createState() => _DetailMedicinePageState();
@@ -16,22 +19,76 @@ class _DetailMedicinePageState extends State<DetailMedicinePage> {
     'assets/images/obat_batuk.png'
   ];
 
-  final List familiarShoes = [
-    'assets/images/obat_batuk.png',
-    'assets/images/obat_batuk.png',
-    'assets/images/obat_batuk.png',
-    'assets/images/obat_batuk.png',
-    'assets/images/obat_batuk.png',
-    'assets/images/obat_batuk.png',
-    'assets/images/obat_batuk.png',
-    'assets/images/obat_batuk.png',
-    'assets/images/obat_batuk.png'
-  ];
-
   int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    Future<void> showSuccessDialog() async {
+      return showDialog(
+        context: context,
+        builder: (_) => SizedBox(
+          width: MediaQuery.of(context).size.width - (2 * defaultMargin),
+          child: AlertDialog(
+            backgroundColor: backgroundColor3,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+            content: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: Icon(
+                        Icons.close,
+                        color: primaryTextColor,
+                      ),
+                    ),
+                  ),
+                  Icon(Icons.check_circle, color: primaryColor, size: 100),
+                  const SizedBox(height: 12),
+                  Text(
+                    'Hurray :)',
+                    style: primaryTextStyle.copyWith(
+                      fontSize: 18,
+                      fontWeight: semiBold,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    'Item added successfully',
+                    style: secondaryTextStyle,
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    width: 154,
+                    height: 44,
+                    child: TextButton(
+                      onPressed: () {},
+                      style: TextButton.styleFrom(
+                        backgroundColor: primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: Text(
+                        'View My Cart',
+                        style: primaryTextStyle.copyWith(
+                          fontSize: 16,
+                          fontWeight: medium,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
     Widget indicator(int index) {
       return Container(
         width: currentIndex == index ? 16 : 4,
@@ -127,7 +184,7 @@ class _DetailMedicinePageState extends State<DetailMedicinePage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Obat Batuk Herbal',
+                              widget.medicine.name,
                               style: primaryTextStyle.copyWith(
                                 fontSize: 18,
                                 fontWeight: semiBold,
@@ -156,7 +213,7 @@ class _DetailMedicinePageState extends State<DetailMedicinePage> {
                         style: primaryTextStyle,
                       ),
                       Text(
-                        'Rp. 15.000',
+                        'Rp. ${widget.medicine.price}',
                         style: priceTextStyle.copyWith(
                           fontSize: 16,
                           fontWeight: semiBold,
@@ -178,7 +235,7 @@ class _DetailMedicinePageState extends State<DetailMedicinePage> {
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+                        widget.medicine.description,
                         style: subtitleTextStyle.copyWith(fontWeight: light),
                         textAlign: TextAlign.justify,
                       ),
@@ -201,14 +258,17 @@ class _DetailMedicinePageState extends State<DetailMedicinePage> {
         color: backgroundColor1,
         child: Row(
           children: [
-            Container(
-              width: 54,
-              height: 54,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: primaryColor),
+            GestureDetector(
+              onTap: () => Navigator.pushNamed(context, '/detail-chat'),
+              child: Container(
+                width: 54,
+                height: 54,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: primaryColor),
+                ),
+                child: Icon(Icons.chat, color: primaryColor),
               ),
-              child: Icon(Icons.chat, color: primaryColor),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -216,7 +276,7 @@ class _DetailMedicinePageState extends State<DetailMedicinePage> {
                 width: 54,
                 height: 54,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () => showSuccessDialog(),
                   style: TextButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
