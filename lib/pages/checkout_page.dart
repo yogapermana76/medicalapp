@@ -1,12 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:medicalapp/providers/auth_provider.dart';
+import 'package:medicalapp/providers/cart_provider.dart';
+import 'package:medicalapp/providers/order_provider.dart';
 import 'package:medicalapp/theme.dart';
 import 'package:medicalapp/widgets/checkout_card.dart';
+import 'package:medicalapp/widgets/loading_button.dart';
+import 'package:provider/provider.dart';
 
-class CheckoutPage extends StatelessWidget {
+class CheckoutPage extends StatefulWidget {
   const CheckoutPage({super.key});
 
   @override
+  State<CheckoutPage> createState() => _CheckoutPageState();
+}
+
+class _CheckoutPageState extends State<CheckoutPage> {
+  bool isLoading = false;
+
+  @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context);
+    final orderProvider = Provider.of<OrderProvider>(context);
+    final authProvider = Provider.of<AuthProvider>(context);
+
+    handleCheckout() async {
+      setState(() {
+        isLoading = true;
+      });
+
+      bool isCheckoutSuccess = await orderProvider.checkout(
+        authProvider.user.token!,
+        cartProvider.carts,
+        cartProvider.totalPrice(),
+      );
+
+      if (isCheckoutSuccess) {
+        cartProvider.carts = [];
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          '/checkout-success',
+          (_) => false,
+        );
+      }
+
+      setState(() {
+        isLoading = false;
+      });
+    }
+
     PreferredSizeWidget header() {
       return AppBar(
         backgroundColor: backgroundColor1,
@@ -39,8 +80,11 @@ class CheckoutPage extends StatelessWidget {
                     fontWeight: medium,
                   ),
                 ),
-                const CheckoutCard(),
-                const CheckoutCard(),
+                Column(
+                  children: cartProvider.carts
+                      .map((cart) => CheckoutCard(cart))
+                      .toList(),
+                )
               ],
             ),
           ),
@@ -140,11 +184,11 @@ class CheckoutPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Product Quantity',
+                      'Quantity',
                       style: secondaryTextStyle.copyWith(fontSize: 12),
                     ),
                     Text(
-                      '2 Items',
+                      '${cartProvider.totalItems()} Items',
                       style: primaryTextStyle.copyWith(fontWeight: medium),
                     ),
                   ],
@@ -154,11 +198,11 @@ class CheckoutPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Product Price',
+                      'Price',
                       style: secondaryTextStyle.copyWith(fontSize: 12),
                     ),
                     Text(
-                      'Rp. 60.000',
+                      'Rp. ${cartProvider.totalPrice()}',
                       style: primaryTextStyle.copyWith(fontWeight: medium),
                     ),
                   ],
@@ -191,7 +235,7 @@ class CheckoutPage extends StatelessWidget {
                       style: priceTextStyle.copyWith(fontWeight: semiBold),
                     ),
                     Text(
-                      'Rp. 60.000',
+                      'Rp. ${cartProvider.totalPrice()}',
                       style: priceTextStyle.copyWith(fontWeight: semiBold),
                     ),
                   ],
@@ -206,29 +250,30 @@ class CheckoutPage extends StatelessWidget {
             thickness: 1,
             color: Color(0xff2E3141),
           ),
-          Container(
-            height: 50,
-            width: double.infinity,
-            margin: EdgeInsets.symmetric(vertical: defaultMargin),
-            decoration: BoxDecoration(
-              color: primaryColor,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: TextButton(
-              onPressed: () => Navigator.pushNamedAndRemoveUntil(
-                context,
-                '/checkout-success',
-                (_) => false,
-              ),
-              child: Text(
-                'Checkout Now',
-                style: primaryTextStyle.copyWith(
-                  fontWeight: semiBold,
-                  fontSize: 16,
+          isLoading
+              ? Container(
+                  margin: EdgeInsets.only(bottom: defaultMargin),
+                  child: const LoadingButton(),
+                )
+              : Container(
+                  height: 50,
+                  width: double.infinity,
+                  margin: EdgeInsets.symmetric(vertical: defaultMargin),
+                  decoration: BoxDecoration(
+                    color: primaryColor,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: TextButton(
+                    onPressed: () => handleCheckout(),
+                    child: Text(
+                      'Checkout Now',
+                      style: primaryTextStyle.copyWith(
+                        fontWeight: semiBold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
         ],
       );
     }
