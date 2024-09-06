@@ -6,7 +6,9 @@ import 'package:medicalapp/theme.dart';
 import 'package:medicalapp/pages/home/home_page.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({super.key});
+  const MainPage({this.initialIndex = 0, super.key});
+
+  final int initialIndex;
 
   @override
   State<MainPage> createState() => _MainPageState();
@@ -14,6 +16,19 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int currentIndex = 0;
+
+  final List<Widget> pages = [
+    const HomePage(),
+    const ChatPage(),
+    const MedicinePage(),
+    const ProfilePage(),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    currentIndex = widget.initialIndex; // Set initialIndex dari argumen
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,54 +64,42 @@ class _MainPageState extends State<MainPage> {
               type: BottomNavigationBarType.fixed,
               items: [
                 BottomNavigationBarItem(
-                  icon: Container(
-                    margin: const EdgeInsets.only(top: 10, bottom: 10),
-                    child: Icon(Icons.home,
-                        size: 24,
-                        color: currentIndex == 0
-                            ? primaryColor
-                            : const Color(0xff808191)),
+                  icon: Icon(
+                    Icons.home,
+                    size: 24,
+                    color: currentIndex == 0
+                        ? primaryColor
+                        : const Color(0xff808191),
                   ),
                   label: 'Home',
                 ),
                 BottomNavigationBarItem(
-                  icon: Container(
-                    margin: const EdgeInsets.only(
-                      top: 10,
-                      bottom: 10,
-                      right: 40,
-                    ),
-                    child: Icon(Icons.chat,
-                        size: 24,
-                        color: currentIndex == 1
-                            ? primaryColor
-                            : const Color(0xff808191)),
+                  icon: Icon(
+                    Icons.chat,
+                    size: 24,
+                    color: currentIndex == 1
+                        ? primaryColor
+                        : const Color(0xff808191),
                   ),
                   label: 'Chat',
                 ),
                 BottomNavigationBarItem(
-                  icon: Container(
-                    margin: const EdgeInsets.only(
-                      top: 10,
-                      bottom: 10,
-                      left: 40,
-                    ),
-                    child: Icon(Icons.medical_services,
-                        size: 24,
-                        color: currentIndex == 2
-                            ? primaryColor
-                            : const Color(0xff808191)),
+                  icon: Icon(
+                    Icons.medical_services,
+                    size: 24,
+                    color: currentIndex == 2
+                        ? primaryColor
+                        : const Color(0xff808191),
                   ),
                   label: 'Medicine',
                 ),
                 BottomNavigationBarItem(
-                  icon: Container(
-                    margin: const EdgeInsets.only(top: 10, bottom: 10),
-                    child: Icon(Icons.person,
-                        size: 24,
-                        color: currentIndex == 3
-                            ? primaryColor
-                            : const Color(0xff808191)),
+                  icon: Icon(
+                    Icons.person,
+                    size: 24,
+                    color: currentIndex == 3
+                        ? primaryColor
+                        : const Color(0xff808191),
                   ),
                   label: 'Profile',
                 ),
@@ -107,27 +110,15 @@ class _MainPageState extends State<MainPage> {
       );
     }
 
-    Widget body() {
-      switch (currentIndex) {
-        case 0:
-          return const HomePage();
-        case 1:
-          return const ChatPage();
-        case 2:
-          return const MedicinePage();
-        case 3:
-          return const ProfilePage();
-        default:
-          return const HomePage();
-      }
-    }
-
     return Scaffold(
       backgroundColor: currentIndex == 0 ? backgroundColor1 : backgroundColor3,
       floatingActionButton: cartButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: customBottomNav(),
-      body: body(),
+      body: IndexedStack(
+        index: currentIndex,
+        children: pages,
+      ),
     );
   }
 }
