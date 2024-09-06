@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:medicalapp/models/medicine_model.dart';
 
@@ -12,7 +11,6 @@ class MedicineService {
     final headers = {'Content-Type': 'application/json'};
 
     final response = await http.get(url, headers: headers);
-    debugPrint(response.body);
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body)['data'] as List<dynamic>;
