@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:medicalapp/providers/auth_provider.dart';
 import 'package:medicalapp/theme.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+    final user = authProvider.user;
+
     Widget header() {
       return AppBar(
         backgroundColor: backgroundColor1,
@@ -26,14 +31,14 @@ class ProfilePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Hallo Yoga',
+                        'Hallo, ${user.name}',
                         style: primaryTextStyle.copyWith(
                           fontSize: 24,
                           fontWeight: semiBold,
                         ),
                       ),
                       Text(
-                        'permana76.yp@gmail.com',
+                        user.email,
                         style: subtitleTextStyle.copyWith(fontSize: 16),
                       ),
                     ],
