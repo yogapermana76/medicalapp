@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:medicalapp/models/cart_model.dart';
+import 'package:medicalapp/providers/cart_provider.dart';
 import 'package:medicalapp/theme.dart';
+import 'package:provider/provider.dart';
 
 class CartCard extends StatelessWidget {
-  const CartCard({super.key});
+  const CartCard(this.cart, {super.key});
+
+  final CartModel cart;
 
   @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context);
+
     return Container(
-      margin: EdgeInsets.only(top: defaultMargin),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      decoration: BoxDecoration(
-        color: backgroundColor4,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        children: [
+        margin: EdgeInsets.only(top: defaultMargin),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        decoration: BoxDecoration(
+          color: backgroundColor4,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(children: [
           Row(
             children: [
               Container(
@@ -33,11 +39,11 @@ class CartCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Obat Batuk Herbal',
+                      cart.medicine.name,
                       style: primaryTextStyle.copyWith(fontWeight: semiBold),
                     ),
                     Text(
-                      'Rp. 15.000',
+                      'Rp. ${cart.medicine.price}',
                       style: priceTextStyle,
                     ),
                   ],
@@ -46,17 +52,17 @@ class CartCard extends StatelessWidget {
               Column(
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () => cartProvider.addQuatity(cart.medicine),
                     icon: Icon(Icons.add, color: primaryColor),
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    '2',
+                    cart.quantity.toString(),
                     style: primaryTextStyle.copyWith(fontWeight: medium),
                   ),
                   const SizedBox(height: 2),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () => cartProvider.reduceQuantity(cart.medicine),
                     icon: Icon(Icons.minimize, color: primaryColor),
                   ),
                 ],
@@ -66,21 +72,20 @@ class CartCard extends StatelessWidget {
           const SizedBox(height: 12),
           Row(
             children: [
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.delete, size: 20, color: alertColor),
-              ),
-              Text(
-                'Remove',
-                style: alertTextStyle.copyWith(
-                  fontSize: 12,
-                  fontWeight: light,
-                ),
-              ),
+              GestureDetector(
+                  onTap: () => cartProvider.removeCart(cart.medicine),
+                  child: Row(children: [
+                    Icon(Icons.delete, size: 20, color: alertColor),
+                    Text(
+                      'Remove',
+                      style: alertTextStyle.copyWith(
+                        fontSize: 12,
+                        fontWeight: light,
+                      ),
+                    ),
+                  ])),
             ],
           ),
-        ],
-      ),
-    );
+        ]));
   }
 }
