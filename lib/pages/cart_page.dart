@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:medicalapp/providers/cart_provider.dart';
 import 'package:medicalapp/theme.dart';
 import 'package:medicalapp/widgets/cart_card.dart';
+import 'package:provider/provider.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context);
+
     PreferredSizeWidget header() {
       return AppBar(
         backgroundColor: backgroundColor1,
@@ -73,9 +77,7 @@ class CartPage extends StatelessWidget {
           right: defaultMargin,
           bottom: defaultMargin,
         ),
-        children: const [
-          CartCard(),
-        ],
+        children: cartProvider.carts.map((cart) => CartCard(cart)).toList(),
       );
     }
 
@@ -97,7 +99,7 @@ class CartPage extends StatelessWidget {
                     style: primaryTextStyle,
                   ),
                   Text(
-                    'Rp. 30.000',
+                    'Rp. ${cartProvider.totalPrice()}',
                     style: priceTextStyle.copyWith(
                       fontSize: 16,
                       fontWeight: semiBold,
@@ -151,8 +153,9 @@ class CartPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: backgroundColor3,
       appBar: header(),
-      body: content(),
-      bottomNavigationBar: customBottomNav(),
+      body: cartProvider.carts.isEmpty ? empty() : content(),
+      bottomNavigationBar:
+          cartProvider.carts.isEmpty ? const SizedBox() : customBottomNav(),
     );
   }
 }
