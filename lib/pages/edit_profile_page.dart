@@ -10,6 +10,7 @@ class EditProfilePage extends StatelessWidget {
       return AppBar(
         backgroundColor: backgroundColor1,
         leading: IconButton(
+          color: primaryTextColor,
           onPressed: () {
             Navigator.pop(context);
           },
@@ -46,32 +47,7 @@ class EditProfilePage extends StatelessWidget {
             TextFormField(
               style: primaryTextStyle,
               decoration: InputDecoration(
-                hintText: 'Alex Keinnzal',
-                hintStyle: primaryTextStyle,
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: subtitleColor),
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-
-    Widget usernameInput() {
-      return Container(
-        margin: EdgeInsets.only(top: defaultMargin),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Username',
-              style: secondaryTextStyle.copyWith(fontSize: 13),
-            ),
-            TextFormField(
-              style: primaryTextStyle,
-              decoration: InputDecoration(
-                hintText: '@alexkeinn',
+                hintText: 'John Doe',
                 hintStyle: primaryTextStyle,
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: subtitleColor),
@@ -96,7 +72,7 @@ class EditProfilePage extends StatelessWidget {
             TextFormField(
               style: primaryTextStyle,
               decoration: InputDecoration(
-                hintText: 'alex.keinn@mail.com',
+                hintText: 'john.doe@mail.com',
                 hintStyle: primaryTextStyle,
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: subtitleColor),
@@ -127,7 +103,6 @@ class EditProfilePage extends StatelessWidget {
                 ),
               ),
               nameInput(),
-              usernameInput(),
               emailInput(),
             ],
           ),
