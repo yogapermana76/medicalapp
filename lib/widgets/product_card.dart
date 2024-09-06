@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:medicalapp/models/medicine_model.dart';
+import 'package:medicalapp/pages/detail_medicine_page.dart';
 import 'package:medicalapp/theme.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({super.key});
+  const ProductCard(this.medicine, {super.key});
+
+  final MedicineModel medicine;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () => Navigator.pushNamed(context, '/medicine_detail'),
+        onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => DetailMedicinePage(medicine),
+              ),
+            ),
         child: Container(
           width: 215,
           height: 278,
@@ -32,16 +41,17 @@ class ProductCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Obat Batuk Herbal',
+                      medicine.name,
                       style: blackTextStyle.copyWith(
                         fontSize: 18,
                         fontWeight: semiBold,
                       ),
                       overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      'Rp. 15.000',
+                      'Rp. ${medicine.price}',
                       style: priceTextStyle.copyWith(fontWeight: medium),
                     ),
                   ],

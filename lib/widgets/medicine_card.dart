@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:medicalapp/models/medicine_model.dart';
+import 'package:medicalapp/pages/detail_medicine_page.dart';
 import 'package:medicalapp/theme.dart';
 
 class MedicineCard extends StatelessWidget {
-  const MedicineCard({super.key});
+  const MedicineCard(this.medicine, {super.key});
+
+  final MedicineModel medicine;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () => Navigator.pushNamed(context, '/medicine_detail'),
+        onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => DetailMedicinePage(medicine),
+              ),
+            ),
         child: Container(
           margin: const EdgeInsets.only(top: 20),
           padding: const EdgeInsets.only(
@@ -32,13 +41,13 @@ class MedicineCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Obat Batuk Anak',
+                      medicine.name,
                       style: primaryTextStyle.copyWith(
                         fontWeight: semiBold,
                       ),
                     ),
                     Text(
-                      'Rp. 20.000',
+                      'Rp. ${medicine.price}',
                       style: priceTextStyle,
                     ),
                   ],

@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:medicalapp/models/medicine_model.dart';
+import 'package:medicalapp/pages/detail_medicine_page.dart';
 import 'package:medicalapp/theme.dart';
 
 class ProductTile extends StatelessWidget {
-  const ProductTile({super.key});
+  const ProductTile(this.medicine, {super.key});
+
+  final MedicineModel medicine;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () => Navigator.pushNamed(context, '/medicine_detail'),
+        onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => DetailMedicinePage(medicine),
+              ),
+            ),
         child: Container(
           margin: EdgeInsets.only(
             left: defaultMargin,
@@ -31,7 +40,7 @@ class ProductTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Obat Batuk Anak',
+                      medicine.name,
                       style: primaryTextStyle.copyWith(
                         fontSize: 16,
                         fontWeight: semiBold,
@@ -40,7 +49,7 @@ class ProductTile extends StatelessWidget {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      'Rp. 20.000',
+                      'Rp. ${medicine.price}',
                       style: priceTextStyle.copyWith(fontWeight: medium),
                     ),
                   ],
