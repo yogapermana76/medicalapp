@@ -49,64 +49,85 @@ class _MainPageState extends State<MainPage> {
           shape: const CircularNotchedRectangle(),
           notchMargin: 12,
           clipBehavior: Clip.antiAlias,
-          child: Theme(
-            data: ThemeData(
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-            ),
-            child: OverflowBox(
-              maxHeight: double.infinity,
-              child: BottomNavigationBar(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                currentIndex: currentIndex,
-                showUnselectedLabels: false,
-                showSelectedLabels: false,
-                onTap: (value) => setState(() => currentIndex = value),
-                type: BottomNavigationBarType.fixed,
-                items: [
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.home,
-                      size: 24,
-                      color: currentIndex == 0
-                          ? primaryColor
-                          : const Color(0xff808191),
+          child: Container(
+            color: Colors.transparent,
+            height: kBottomNavigationBarHeight,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Expanded(
+                  child: SizedBox(
+                    height: kBottomNavigationBarHeight,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.home,
+                          size: 24,
+                          color: currentIndex == 0
+                              ? primaryColor
+                              : const Color(0xff808191),
+                        ),
+                        onPressed: () => setState(() => currentIndex = 0),
+                      ),
                     ),
-                    label: 'Home',
                   ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.chat,
-                      size: 24,
-                      color: currentIndex == 1
-                          ? primaryColor
-                          : const Color(0xff808191),
+                ),
+                Expanded(
+                  child: SizedBox(
+                    height: kBottomNavigationBarHeight,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.chat,
+                          size: 24,
+                          color: currentIndex == 1
+                              ? primaryColor
+                              : const Color(0xff808191),
+                        ),
+                        onPressed: () => setState(() => currentIndex = 1),
+                      ),
                     ),
-                    label: 'Chat',
                   ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.medical_services,
-                      size: 24,
-                      color: currentIndex == 2
-                          ? primaryColor
-                          : const Color(0xff808191),
+                ),
+                Expanded(
+                  child: SizedBox(
+                    height: kBottomNavigationBarHeight,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.medical_services,
+                          size: 24,
+                          color: currentIndex == 2
+                              ? primaryColor
+                              : const Color(0xff808191),
+                        ),
+                        onPressed: () => setState(() => currentIndex = 2),
+                      ),
                     ),
-                    label: 'Medicine',
                   ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.person,
-                      size: 24,
-                      color: currentIndex == 3
-                          ? primaryColor
-                          : const Color(0xff808191),
+                ),
+                Expanded(
+                  child: SizedBox(
+                    height: kBottomNavigationBarHeight,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.person,
+                          size: 24,
+                          color: currentIndex == 3
+                              ? primaryColor
+                              : const Color(0xff808191),
+                        ),
+                        onPressed: () => setState(() => currentIndex = 3),
+                      ),
                     ),
-                    label: 'Profile',
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
