@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:medicalapp/models/medicine_model.dart';
 import 'package:medicalapp/pages/edit_profile_page.dart';
+import 'package:medicalapp/providers/medicine_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:medicalapp/pages/cart_page.dart';
 import 'package:medicalapp/pages/checkout_page.dart';
@@ -26,6 +28,9 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
             create: (_) => AuthProvider(),
           ),
+          ChangeNotifierProvider(
+            create: (_) => MedicineProvider(),
+          ),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -36,7 +41,8 @@ class MyApp extends StatelessWidget {
             '/register': (_) => const RegisterPage(),
             '/home': (_) => const MainPage(),
             '/detail-chat': (_) => const DetailChatPage(),
-            '/detail-medicine': (_) => const DetailMedicinePage(),
+            '/detail-medicine': (contex) =>
+                DetailMedicinePage(context as MedicineModel),
             '/edit-profile': (_) => const EditProfilePage(),
             '/cart': (_) => const CartPage(),
             '/checkout': (_) => const CheckoutPage(),
