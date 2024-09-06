@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:medicalapp/models/medicine_model.dart';
+import 'package:medicalapp/providers/cart_provider.dart';
 import 'package:medicalapp/theme.dart';
+import 'package:provider/provider.dart';
 
 class DetailMedicinePage extends StatefulWidget {
   const DetailMedicinePage(this.medicine, {super.key});
@@ -23,6 +25,8 @@ class _DetailMedicinePageState extends State<DetailMedicinePage> {
 
   @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context);
+
     Future<void> showSuccessDialog() async {
       return showDialog(
         context: context,
@@ -65,7 +69,10 @@ class _DetailMedicinePageState extends State<DetailMedicinePage> {
                     width: 154,
                     height: 44,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.pushReplacementNamed(context, '/cart');
+                      },
                       style: TextButton.styleFrom(
                         backgroundColor: primaryColor,
                         shape: RoundedRectangleBorder(
@@ -276,7 +283,10 @@ class _DetailMedicinePageState extends State<DetailMedicinePage> {
                 width: 54,
                 height: 54,
                 child: TextButton(
-                  onPressed: () => showSuccessDialog(),
+                  onPressed: () {
+                    cartProvider.addCart(widget.medicine);
+                    showSuccessDialog();
+                  },
                   style: TextButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
