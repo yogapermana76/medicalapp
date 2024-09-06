@@ -23,10 +23,9 @@ class AuthService {
       body: body,
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       final data = jsonDecode(response.body)['data'];
-      final user = UserModel.fromJson(data['user']);
-      // user.token = 'Bearer ${data['access_token']}';
+      final user = UserModel.fromJson(data);
       return user;
     } else {
       throw Exception('Gagal Register');

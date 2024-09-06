@@ -19,14 +19,13 @@ class AuthProvider with ChangeNotifier {
     required String password,
   }) async {
     try {
-      final user = await AuthService().register(
+      await AuthService().register(
         name: name,
         role: role,
         email: email,
         password: password,
       );
 
-      _user = user;
       return true;
     } catch (e) {
       debugPrint('$e');
