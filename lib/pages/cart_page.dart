@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medicalapp/pages/main_page.dart';
 import 'package:medicalapp/providers/cart_provider.dart';
 import 'package:medicalapp/theme.dart';
 import 'package:medicalapp/widgets/cart_card.dart';
@@ -49,7 +50,17 @@ class CartPage extends StatelessWidget {
               margin: const EdgeInsets.only(top: 20),
               height: 44,
               child: TextButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const MainPage(
+                      initialIndex: 2,
+                    ),
+                    transitionDuration: Duration.zero,
+                    reverseTransitionDuration: Duration.zero,
+                  ),
+                ),
                 style: TextButton.styleFrom(
                   backgroundColor: primaryColor,
                   shape: RoundedRectangleBorder(
