@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:medicalapp/models/cart_model.dart';
 import 'package:medicalapp/theme.dart';
 
 class CheckoutCard extends StatelessWidget {
-  const CheckoutCard({super.key});
+  const CheckoutCard(this.cart, {super.key});
+
+  final CartModel cart;
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +34,13 @@ class CheckoutCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Obat Batuk Herbal',
+                  cart.medicine.name,
                   style: primaryTextStyle.copyWith(fontWeight: semiBold),
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(width: 2),
                 Text(
-                  'Rp. 15.000',
+                  'Rp. ${cart.medicine.price}',
                   style: priceTextStyle,
                 ),
               ],
@@ -45,7 +48,7 @@ class CheckoutCard extends StatelessWidget {
           ),
           const SizedBox(width: 12),
           Text(
-            '2 Items',
+            '${cart.quantity} Items',
             style: secondaryTextStyle.copyWith(fontSize: 12),
           ),
         ],
