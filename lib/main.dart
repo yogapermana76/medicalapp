@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:medicalapp/models/medicine_model.dart';
 import 'package:medicalapp/pages/edit_profile_page.dart';
+import 'package:medicalapp/providers/cart_provider.dart';
 import 'package:medicalapp/providers/medicine_provider.dart';
+import 'package:medicalapp/providers/order_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:medicalapp/pages/cart_page.dart';
 import 'package:medicalapp/pages/checkout_page.dart';
@@ -30,6 +32,12 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider(
             create: (_) => MedicineProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => CartProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => OrderProvider(),
           ),
         ],
         child: MaterialApp(
