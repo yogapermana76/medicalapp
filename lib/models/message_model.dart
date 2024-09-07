@@ -1,27 +1,29 @@
+// ignore_for_file: non_constant_identifier_names
+
 class MessageModel {
   final String message;
-  final int senderId;
-  final String chatId;
-  final DateTime sentAt;
+  final int sender_id;
+  final int chat_id;
+  final DateTime sent_at;
 
   MessageModel({
     required this.message,
-    required this.senderId,
-    required this.chatId,
-    required this.sentAt,
+    required this.sender_id,
+    required this.chat_id,
+    required this.sent_at,
   });
 
   factory MessageModel.fromJson(Map<String, dynamic> json) => MessageModel(
         message: json['message'],
-        senderId: json['senderId'],
-        chatId: json['chatId'],
-        sentAt: DateTime.parse(json['sentAt']),
+        sender_id: json['sender_id'],
+        chat_id: json['chat_id'],
+        sent_at: DateTime.parse(json['sent_at']),
       );
 
   Map<String, dynamic> toJson() => {
         'message': message,
-        'senderId': senderId,
-        'chatId': chatId,
-        'sentAt': sentAt.toString(),
+        'sender_id': sender_id,
+        'chat_id': chat_id,
+        'sent_at': sent_at.toString(),
       };
 }
