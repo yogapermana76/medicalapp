@@ -11,15 +11,15 @@ class OrderService {
     List<CartModel> carts,
     double totalAmount,
   ) async {
-    final url = '$baseUrl/order';
+    final url = '$baseUrl/orders';
     final headers = {
       'Content-Type': 'application/json',
       'Authorization': token,
     };
     final body = jsonEncode({
-      'items': carts
+      'order_items': carts
           .map((cart) => {
-                'id': cart.medicine.id,
+                'medicine_id': cart.medicine.id,
                 'quantity': cart.quantity,
                 'price': cart.medicine.price,
               })
@@ -34,7 +34,7 @@ class OrderService {
       body: body,
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       return true;
     } else {
       throw Exception('Gagal melakukan checkout');
