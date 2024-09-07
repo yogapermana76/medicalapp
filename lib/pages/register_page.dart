@@ -26,16 +26,16 @@ class _RegisterPageState extends State<RegisterPage> {
 
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
-      bool isRegistered = await authProvider.register(
-        name: _nameController.text,
-        role: _roleController.text,
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
+      try {
+        await authProvider.register(
+          name: _nameController.text,
+          role: _roleController.text,
+          email: _emailController.text,
+          password: _passwordController.text,
+        );
 
-      if (isRegistered) {
         Navigator.pushNamed(context, '/login');
-      } else {
+      } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: alertColor,
@@ -45,9 +45,9 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
           ),
         );
+      } finally {
+        setState(() => _isLoading = false);
       }
-
-      setState(() => _isLoading = false);
     }
 
     Widget header() {

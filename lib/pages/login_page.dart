@@ -24,26 +24,26 @@ class _LoginPageState extends State<LoginPage> {
 
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
-      bool isSuccessLogin = await authProvider.login(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
+      try {
+        await authProvider.login(
+          email: _emailController.text,
+          password: _passwordController.text,
+        );
 
-      if (isSuccessLogin) {
         Navigator.pushNamed(context, '/home');
-      } else {
+      } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: alertColor,
-            content: const Text(
-              'Gagal Login!',
+            content: Text(
+              e.toString(),
               textAlign: TextAlign.center,
             ),
           ),
         );
+      } finally {
+        setState(() => _isLoading = false);
       }
-
-      setState(() => _isLoading = false);
     }
 
     Widget header() {

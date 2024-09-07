@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:medicalapp/models/user_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:medicalapp/utils/error.utils.dart';
 
 class AuthService {
   final String baseUrl = 'http://127.0.0.1:3000/api';
@@ -28,7 +29,7 @@ class AuthService {
       final user = UserModel.fromJson(data);
       return user;
     } else {
-      throw Exception('Gagal Register');
+      throw extractErrorMessage(response.body);
     }
   }
 
@@ -55,7 +56,7 @@ class AuthService {
       user.token = 'Bearer ${data['access_token']}';
       return user;
     } else {
-      throw Exception('Gagal Login');
+      throw extractErrorMessage(response.body);
     }
   }
 }

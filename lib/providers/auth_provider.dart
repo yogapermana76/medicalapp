@@ -12,24 +12,21 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> register({
+  Future register({
     required String name,
     required String role,
     required String email,
     required String password,
   }) async {
     try {
-      await AuthService().register(
+      return await AuthService().register(
         name: name,
         role: role,
         email: email,
         password: password,
       );
-
-      return true;
     } catch (e) {
-      debugPrint('$e');
-      return false;
+      rethrow;
     }
   }
 
@@ -46,8 +43,7 @@ class AuthProvider with ChangeNotifier {
       _user = user;
       return true;
     } catch (e) {
-      debugPrint('$e');
-      return false;
+      rethrow;
     }
   }
 }
