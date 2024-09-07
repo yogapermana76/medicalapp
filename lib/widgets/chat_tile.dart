@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medicalapp/pages/detail_chat_page.dart';
 import 'package:medicalapp/theme.dart';
 
 class ChatTile extends StatelessWidget {
@@ -7,7 +8,17 @@ class ChatTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, '/detail-chat'),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const DetailChatPage(
+              chatId: 3,
+              userId: 32,
+            ),
+          ),
+        );
+      },
       child: Container(
         margin: const EdgeInsets.only(top: 33),
         child: Column(

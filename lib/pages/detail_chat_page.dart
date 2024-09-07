@@ -7,7 +7,14 @@ import 'package:medicalapp/utils/error.utils.dart';
 import 'package:medicalapp/widgets/chat_bubble.dart';
 
 class DetailChatPage extends StatefulWidget {
-  const DetailChatPage({super.key});
+  final int chatId;
+  final int userId;
+
+  const DetailChatPage({
+    super.key,
+    required this.chatId,
+    required this.userId,
+  });
 
   @override
   State<DetailChatPage> createState() => _DetailChatPageState();
@@ -19,16 +26,14 @@ class _DetailChatPageState extends State<DetailChatPage>
   final TextEditingController messageController = TextEditingController();
   final ScrollController scrollController = ScrollController(); // Add this line
 
-  int chatId = 3; // Example chat ID
-  int userId = 32; // Example user ID
-
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     webSocketService
         .connect(); // Ensure connection is established if not already
-    webSocketService.joinChat(chatId); // Join chat with the specified chatId
+    webSocketService
+        .joinChat(widget.chatId); // Join chat with the specified chatId
 
     loadMessagesFromServer();
   }
@@ -67,7 +72,7 @@ class _DetailChatPageState extends State<DetailChatPage>
   void sendMessage() {
     final message = messageController.text;
     if (message.isNotEmpty) {
-      webSocketService.sendMessage(chatId, userId, message);
+      webSocketService.sendMessage(widget.chatId, widget.userId, message);
       messageController.clear();
       scrollToBottom();
     }
@@ -75,7 +80,7 @@ class _DetailChatPageState extends State<DetailChatPage>
 
   void loadMessagesFromServer() async {
     try {
-      final messages = await ChatService().getMessages(chatId: chatId);
+      final messages = await ChatService().getMessages(chatId: widget.chatId);
 
       setState(() {
         webSocketService.messages.value = messages;
@@ -195,7 +200,7 @@ class _DetailChatPageState extends State<DetailChatPage>
             itemBuilder: (context, index) {
               final message = messages[index];
               return ChatBubble(
-                isSender: message.sender_id == userId,
+                isSender: message.sender_id == widget.userId,
                 text: message.message,
               );
             },

@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:medicalapp/models/medicine_model.dart';
+import 'package:medicalapp/pages/detail_chat_page.dart';
 import 'package:medicalapp/providers/cart_provider.dart';
 import 'package:medicalapp/theme.dart';
 import 'package:provider/provider.dart';
@@ -269,7 +270,17 @@ class _DetailMedicinePageState extends State<DetailMedicinePage> {
         child: Row(
           children: [
             GestureDetector(
-              onTap: () => Navigator.pushNamed(context, '/detail-chat'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const DetailChatPage(
+                      chatId: 3,
+                      userId: 32,
+                    ),
+                  ),
+                );
+              },
               child: Container(
                 width: 54,
                 height: 54,

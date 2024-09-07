@@ -48,7 +48,14 @@ class MyApp extends StatelessWidget {
             '/login': (_) => const LoginPage(),
             '/register': (_) => const RegisterPage(),
             '/home': (_) => const MainPage(),
-            '/detail-chat': (_) => const DetailChatPage(),
+            '/detail-chat': (context) {
+              final args = ModalRoute.of(context)!.settings.arguments
+                  as Map<String, int>;
+              return DetailChatPage(
+                chatId: args['chatId']!,
+                userId: args['userId']!,
+              );
+            },
             '/detail-medicine': (contex) =>
                 DetailMedicinePage(context as MedicineModel),
             '/edit-profile': (_) => const EditProfilePage(),
