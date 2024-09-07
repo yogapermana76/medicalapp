@@ -17,6 +17,7 @@ class _DetailChatPageState extends State<DetailChatPage>
     with WidgetsBindingObserver {
   final WebSocketService webSocketService = WebSocketService();
   final TextEditingController messageController = TextEditingController();
+  final ScrollController scrollController = ScrollController(); // Add this line
 
   int chatId = 3; // Example chat ID
   int userId = 32; // Example user ID
@@ -44,10 +45,23 @@ class _DetailChatPageState extends State<DetailChatPage>
   void dispose() {
     // No need to call disconnect here unless you want to disconnect when leaving this page
     // webSocketService.disconnect(); // Commented out if using singleton
-    WidgetsBinding.instance.removeObserver(this);
-    webSocketService.disconnect();
+    // WidgetsBinding.instance.removeObserver(this);
+    // webSocketService.disconnect();
     messageController.dispose();
+    scrollController.dispose(); // Dispose of the controller
     super.dispose();
+  }
+
+  void scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (scrollController.hasClients) {
+        scrollController.animateTo(
+          scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
   }
 
   void sendMessage() {
@@ -55,6 +69,7 @@ class _DetailChatPageState extends State<DetailChatPage>
     if (message.isNotEmpty) {
       webSocketService.sendMessage(chatId, userId, message);
       messageController.clear();
+      scrollToBottom();
     }
   }
 
@@ -64,6 +79,10 @@ class _DetailChatPageState extends State<DetailChatPage>
 
       setState(() {
         webSocketService.messages.value = messages;
+        // Scroll to bottom after messages are loaded
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          scrollController.jumpTo(scrollController.position.maxScrollExtent);
+        });
       });
     } catch (error) {
       throw extractErrorMessage(error.toString());
@@ -132,6 +151,7 @@ class _DetailChatPageState extends State<DetailChatPage>
                     child: Center(
                       child: TextFormField(
                         controller: messageController,
+                        style: primaryTextStyle,
                         decoration: InputDecoration.collapsed(
                           hintText: 'Type Message...',
                           hintStyle: subtitleTextStyle,
@@ -164,7 +184,12 @@ class _DetailChatPageState extends State<DetailChatPage>
       return ValueListenableBuilder<List<MessageModel>>(
         valueListenable: webSocketService.messages,
         builder: (context, messages, _) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            scrollToBottom(); // Panggil scrollToBottom setelah widget dirender
+          });
+
           return ListView.builder(
+            controller: scrollController,
             padding: EdgeInsets.symmetric(horizontal: defaultMargin),
             itemCount: messages.length,
             itemBuilder: (context, index) {
