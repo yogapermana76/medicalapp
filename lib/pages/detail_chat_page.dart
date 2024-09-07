@@ -11,7 +11,8 @@ class DetailChatPage extends StatefulWidget {
   State<DetailChatPage> createState() => _DetailChatPageState();
 }
 
-class _DetailChatPageState extends State<DetailChatPage> {
+class _DetailChatPageState extends State<DetailChatPage>
+    with WidgetsBindingObserver {
   final WebSocketService webSocketService = WebSocketService();
   final TextEditingController messageController = TextEditingController();
   int chatId = 3; // Example chat ID
@@ -20,15 +21,26 @@ class _DetailChatPageState extends State<DetailChatPage> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     webSocketService
         .connect(); // Ensure connection is established if not already
     webSocketService.joinChat(chatId); // Join chat with the specified chatId
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.detached) {
+      webSocketService.disconnect();
+    }
+  }
+
+  @override
   void dispose() {
     // No need to call disconnect here unless you want to disconnect when leaving this page
     // webSocketService.disconnect(); // Commented out if using singleton
+    WidgetsBinding.instance.removeObserver(this);
+    webSocketService.disconnect();
     messageController.dispose();
     super.dispose();
   }
