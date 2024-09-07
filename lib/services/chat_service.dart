@@ -9,7 +9,7 @@ import 'package:medicalapp/utils/local_torage.utils.dart';
 class ChatService {
   final String baseUrl = 'http://127.0.0.1:3000/api';
 
-  Future createChat({
+  Future<ChatModel> createChat({
     required int userId,
     required int doctorId,
   }) async {
@@ -33,6 +33,33 @@ class ChatService {
       final data = jsonDecode(response.body)['data'];
       final chat = ChatModel.fromJson(data);
       return chat;
+    } else {
+      throw extractErrorMessage(response.body);
+    }
+  }
+
+  Future<List<ChatModel>> getChats({
+    required int userId,
+  }) async {
+    final url = '$baseUrl/chats/$userId';
+
+    final String? token = await getString('token');
+
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': token as String,
+    };
+
+    final response = await http.get(
+      Uri.parse(url),
+      headers: headers,
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body)['data'] as List<dynamic>;
+      return data
+          .map((item) => ChatModel.fromJson(item as Map<String, dynamic>))
+          .toList();
     } else {
       throw extractErrorMessage(response.body);
     }

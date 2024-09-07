@@ -1,10 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:medicalapp/models/chat_model.dart';
 import 'package:medicalapp/pages/main_page.dart';
+import 'package:medicalapp/providers/auth_provider.dart';
+import 'package:medicalapp/services/chat_service.dart';
 import 'package:medicalapp/theme.dart';
+import 'package:medicalapp/utils/error.utils.dart';
 import 'package:medicalapp/widgets/chat_tile.dart';
+import 'package:provider/provider.dart';
 
-class ChatPage extends StatelessWidget {
+class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
+
+  @override
+  State<ChatPage> createState() => _ChatPageState();
+}
+
+class _ChatPageState extends State<ChatPage> {
+  final List<ChatModel> chats = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getChats();
+  }
+
+  void getChats() async {
+    try {
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final user = authProvider.user;
+
+      final chats = await ChatService().getChats(userId: user.id);
+
+      setState(() {
+        this.chats.clear();
+        this.chats.addAll(chats);
+      });
+    } catch (e) {
+      throw extractErrorMessage(e.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,10 +127,7 @@ class ChatPage extends StatelessWidget {
           color: backgroundColor3,
           child: ListView(
             padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-            children: const [
-              ChatTile(),
-              // emptyChat()
-            ],
+            children: this.chats.map((chat) => ChatTile()).toList(),
           ),
         ),
       );
