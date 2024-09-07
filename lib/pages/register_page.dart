@@ -13,7 +13,6 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final _nameController = TextEditingController();
-  final _roleController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -29,7 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
       try {
         await authProvider.register(
           name: _nameController.text,
-          role: _roleController.text,
+          role: 'patient',
           email: _emailController.text,
           password: _passwordController.text,
         );
@@ -39,8 +38,8 @@ class _RegisterPageState extends State<RegisterPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: alertColor,
-            content: const Text(
-              'Gagal Register!',
+            content: Text(
+              e.toString(),
               textAlign: TextAlign.center,
             ),
           ),
@@ -103,51 +102,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         style: primaryTextStyle,
                         decoration: InputDecoration.collapsed(
                           hintText: 'Your Full Name',
-                          hintStyle: subtitleTextStyle,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-
-    Widget roleInput() {
-      return Container(
-        margin: const EdgeInsets.only(top: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Role',
-              style: primaryTextStyle.copyWith(
-                fontSize: 16,
-                fontWeight: medium,
-              ),
-            ),
-            const SizedBox(height: 12),
-            Container(
-              height: 50,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                color: backgroundColor2,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Center(
-                child: Row(
-                  children: [
-                    Icon(Icons.person, color: primaryColor, size: 17),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: TextFormField(
-                        controller: _roleController,
-                        style: primaryTextStyle,
-                        decoration: InputDecoration.collapsed(
-                          hintText: 'Your Role',
                           hintStyle: subtitleTextStyle,
                         ),
                       ),
@@ -315,7 +269,6 @@ class _RegisterPageState extends State<RegisterPage> {
               children: [
                 header(),
                 nameInput(),
-                roleInput(),
                 emailInput(),
                 passwordInput(),
                 _isLoading ? const LoadingButton() : registerButton(),
@@ -331,7 +284,6 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   void dispose() {
     _nameController.dispose();
-    _roleController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
