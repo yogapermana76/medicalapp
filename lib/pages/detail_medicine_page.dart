@@ -2,7 +2,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:medicalapp/models/medicine_model.dart';
 import 'package:medicalapp/pages/detail_chat_page.dart';
+import 'package:medicalapp/providers/auth_provider.dart';
 import 'package:medicalapp/providers/cart_provider.dart';
+import 'package:medicalapp/services/chat_service.dart';
 import 'package:medicalapp/theme.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +25,42 @@ class _DetailMedicinePageState extends State<DetailMedicinePage> {
   ];
 
   int currentIndex = 0;
+
+  void creatChat() async {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final user = authProvider.user;
+
+    try {
+      final chat =
+          await ChatService().createChat(userId: user.id, doctorId: 32);
+
+      if (mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailChatPage(
+              chatId: chat.id,
+              userId: user.id,
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      final errorMessage = e.toString();
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            behavior: SnackBarBehavior.values[2],
+            backgroundColor: alertColor,
+            content: Text(
+              errorMessage,
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -270,17 +308,7 @@ class _DetailMedicinePageState extends State<DetailMedicinePage> {
         child: Row(
           children: [
             GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const DetailChatPage(
-                      chatId: 3,
-                      userId: 32,
-                    ),
-                  ),
-                );
-              },
+              onTap: () => creatChat(),
               child: Container(
                 width: 54,
                 height: 54,

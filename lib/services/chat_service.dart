@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:medicalapp/models/chat_model.dart';
 import 'package:medicalapp/models/message_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:medicalapp/utils/error.utils.dart';
@@ -9,10 +10,10 @@ class ChatService {
   final String baseUrl = 'http://127.0.0.1:3000/api';
 
   Future createChat({
-    required String userId,
-    required String doctorId,
+    required int userId,
+    required int doctorId,
   }) async {
-    final url = '$baseUrl/chat';
+    final url = '$baseUrl/chats';
 
     final String? token = await getString('token');
 
@@ -29,7 +30,9 @@ class ChatService {
     );
 
     if (response.statusCode == 201) {
-      return true;
+      final data = jsonDecode(response.body)['data'];
+      final chat = ChatModel.fromJson(data);
+      return chat;
     } else {
       throw extractErrorMessage(response.body);
     }
