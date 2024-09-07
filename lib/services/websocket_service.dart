@@ -43,19 +43,15 @@ class WebSocketService {
   }
 
   void joinChat(int chatId) {
-    if (socket != null && socket!.connected) {
-      socket!.emit('join_chat', {'chatId': chatId});
-    }
+    socket!.emit('join_chat', {'chatId': chatId});
   }
 
   void sendMessage(int chatId, int senderId, String message) {
-    if (socket != null && socket!.connected) {
-      socket!.emit('send_message', {
-        'chat_id': chatId,
-        'sender_id': senderId,
-        'message': message,
-      });
-    }
+    socket!.emit('send_message', {
+      'chat_id': chatId,
+      'sender_id': senderId,
+      'message': message,
+    });
   }
 
   void disconnect() {
