@@ -40,8 +40,18 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
+  void reloadData() {
+    getChats();
+  }
+
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (ModalRoute.of(context)?.isCurrent == true) {
+        reloadData();
+      }
+    });
+
     Widget header() {
       return AppBar(
         backgroundColor: backgroundColor1,
