@@ -68,28 +68,28 @@ class CheckoutSuccessPage extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              height: 44,
-              width: 220,
-              margin: const EdgeInsets.only(top: 12),
-              child: TextButton(
-                onPressed: () {},
-                style: TextButton.styleFrom(
-                  backgroundColor: const Color(0xff39374B),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: Text(
-                  'View My Order',
-                  style: primaryTextStyle.copyWith(
-                    fontSize: 16,
-                    fontWeight: medium,
-                    color: const Color(0xffB7B6BF),
-                  ),
-                ),
-              ),
-            ),
+            // Container(
+            //   height: 44,
+            //   width: 220,
+            //   margin: const EdgeInsets.only(top: 12),
+            //   child: TextButton(
+            //     onPressed: () {},
+            //     style: TextButton.styleFrom(
+            //       backgroundColor: const Color(0xff39374B),
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(12),
+            //       ),
+            //     ),
+            //     child: Text(
+            //       'View My Order',
+            //       style: primaryTextStyle.copyWith(
+            //         fontSize: 16,
+            //         fontWeight: medium,
+            //         color: const Color(0xffB7B6BF),
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       );
