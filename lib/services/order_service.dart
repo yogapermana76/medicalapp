@@ -34,10 +34,12 @@ class OrderService {
       body: body,
     );
 
+    final responseBody = jsonDecode(response.body);
+
     if (response.statusCode == 201) {
       return true;
     } else {
-      throw Exception('Gagal melakukan checkout');
+      throw responseBody['message'] ?? 'Unknown error occurred';
     }
   }
 }

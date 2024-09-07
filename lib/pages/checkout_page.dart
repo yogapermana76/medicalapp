@@ -29,15 +29,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
         isLoading = true;
       });
 
-      // Lakukan operasi asinkron tanpa melibatkan `context`
-      bool isCheckoutSuccess = await orderProvider.checkout(
-        authProvider.user.token!,
-        cartProvider.carts,
-        cartProvider.totalPrice(),
-      );
+      try {
+        await orderProvider.checkout(
+          authProvider.user.token!,
+          cartProvider.carts,
+          cartProvider.totalPrice(),
+        );
 
-      // Setelah operasi selesai dan jika widget masih mounted
-      if (isCheckoutSuccess && mounted) {
         cartProvider.carts = [];
 
         SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -49,9 +47,19 @@ class _CheckoutPageState extends State<CheckoutPage> {
             );
           }
         });
-      }
-
-      if (mounted) {
+      } catch (e) {
+        final errorMessage = e.toString();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            behavior: SnackBarBehavior.values[2],
+            backgroundColor: alertColor,
+            content: Text(
+              errorMessage,
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
+      } finally {
         setState(() {
           isLoading = false;
         });
