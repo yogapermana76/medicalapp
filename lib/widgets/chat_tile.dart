@@ -1,20 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:medicalapp/models/chat_model.dart';
 import 'package:medicalapp/pages/detail_chat_page.dart';
+import 'package:medicalapp/providers/auth_provider.dart';
 import 'package:medicalapp/theme.dart';
+import 'package:medicalapp/utils/format_date.utils.dart';
+import 'package:provider/provider.dart';
 
 class ChatTile extends StatelessWidget {
-  const ChatTile({super.key});
+  final ChatModel chat;
+
+  const ChatTile(this.chat, {super.key});
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+    final user = authProvider.user;
+
+    // Check if chat.messages is not empty
+    if (chat.messages!.isEmpty) {
+      return Container(); // Or handle the empty state as needed
+    }
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const DetailChatPage(
-              chatId: 3,
-              userId: 32,
+            builder: (context) => DetailChatPage(
+              chatId: chat.id,
+              userId: user.id,
             ),
           ),
         );
@@ -36,15 +50,16 @@ class ChatTile extends StatelessWidget {
                         style: primaryTextStyle.copyWith(fontSize: 15),
                       ),
                       Text(
-                        'Hi, Good Morning',
+                        chat.messages!.first.message,
                         style: secondaryTextStyle.copyWith(fontWeight: light),
                         overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
                     ],
                   ),
                 ),
                 Text(
-                  'Now',
+                  formatDate(chat.messages!.first.sent_at),
                   style: secondaryTextStyle.copyWith(fontSize: 10),
                 ),
               ],

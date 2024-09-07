@@ -127,7 +127,7 @@ class _ChatPageState extends State<ChatPage> {
           color: backgroundColor3,
           child: ListView(
             padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-            children: this.chats.map((chat) => ChatTile()).toList(),
+            children: chats.map((chat) => ChatTile(chat)).toList(),
           ),
         ),
       );
@@ -136,7 +136,7 @@ class _ChatPageState extends State<ChatPage> {
     return Column(
       children: [
         header(),
-        content(),
+        chats.isEmpty ? emptyChat() : content(),
       ],
     );
   }
