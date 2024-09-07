@@ -17,7 +17,7 @@ class MedicineProvider extends ChangeNotifier {
       List<MedicineModel> medicines = await MedicineService().getMedicines();
       _medicines = medicines;
     } catch (e) {
-      debugPrint('$e');
+      rethrow;
     }
   }
 }
