@@ -20,13 +20,15 @@ class _DetailChatPageState extends State<DetailChatPage> {
   @override
   void initState() {
     super.initState();
-    webSocketService.connect();
-    webSocketService.joinChat(3);
+    webSocketService
+        .connect(); // Ensure connection is established if not already
+    webSocketService.joinChat(chatId); // Join chat with the specified chatId
   }
 
   @override
   void dispose() {
-    webSocketService.disconnect();
+    // No need to call disconnect here unless you want to disconnect when leaving this page
+    // webSocketService.disconnect(); // Commented out if using singleton
     messageController.dispose();
     super.dispose();
   }

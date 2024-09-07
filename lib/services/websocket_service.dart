@@ -3,10 +3,25 @@ import 'package:medicalapp/models/message_model.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class WebSocketService {
+  // Private constructor
+  WebSocketService._internal();
+
+  // Single instance of WebSocketService
+  static final WebSocketService _instance = WebSocketService._internal();
+
+  // Factory constructor returns the single instance
+  factory WebSocketService() {
+    return _instance;
+  }
+
   io.Socket? socket;
   final ValueNotifier<List<MessageModel>> messages = ValueNotifier([]);
 
   void connect() {
+    if (socket != null && socket!.connected) {
+      return; // Prevent reconnecting if already connected
+    }
+
     socket = io.io(
       'http://localhost:3000',
       io.OptionBuilder()
@@ -57,5 +72,6 @@ class WebSocketService {
   void disconnect() {
     socket?.off('message'); // Remove message listener
     socket?.disconnect();
+    socket = null;
   }
 }
