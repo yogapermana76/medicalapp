@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:medicalapp/models/message_model.dart';
+import 'package:medicalapp/services/chat_service.dart';
 import 'package:medicalapp/services/websocket_service.dart';
 import 'package:medicalapp/theme.dart';
+import 'package:medicalapp/utils/error.utils.dart';
 import 'package:medicalapp/widgets/chat_bubble.dart';
 
 class DetailChatPage extends StatefulWidget {
@@ -15,6 +17,7 @@ class _DetailChatPageState extends State<DetailChatPage>
     with WidgetsBindingObserver {
   final WebSocketService webSocketService = WebSocketService();
   final TextEditingController messageController = TextEditingController();
+
   int chatId = 3; // Example chat ID
   int userId = 32; // Example user ID
 
@@ -25,6 +28,8 @@ class _DetailChatPageState extends State<DetailChatPage>
     webSocketService
         .connect(); // Ensure connection is established if not already
     webSocketService.joinChat(chatId); // Join chat with the specified chatId
+
+    loadMessagesFromServer();
   }
 
   @override
@@ -50,6 +55,18 @@ class _DetailChatPageState extends State<DetailChatPage>
     if (message.isNotEmpty) {
       webSocketService.sendMessage(chatId, userId, message);
       messageController.clear();
+    }
+  }
+
+  void loadMessagesFromServer() async {
+    try {
+      final messages = await ChatService().getMessages(chatId: chatId);
+
+      setState(() {
+        webSocketService.messages.value = messages;
+      });
+    } catch (error) {
+      throw extractErrorMessage(error.toString());
     }
   }
 
