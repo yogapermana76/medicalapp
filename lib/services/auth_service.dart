@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:medicalapp/models/user_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:medicalapp/utils/error.utils.dart';
+import 'package:medicalapp/utils/local_torage.utils.dart';
 
 class AuthService {
   final String baseUrl = 'http://127.0.0.1:3000/api';
@@ -53,7 +54,9 @@ class AuthService {
     if (response.statusCode == 201) {
       final data = jsonDecode(response.body)['data'];
       final user = UserModel.fromJson(data['user']);
-      user.token = 'Bearer ${data['access_token']}';
+      final String token = 'Bearer ${data['access_token']}';
+      await saveString('token', token);
+      user.token = token;
       return user;
     } else {
       throw extractErrorMessage(response.body);
