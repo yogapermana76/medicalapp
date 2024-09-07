@@ -1,9 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:medicalapp/models/message_model.dart';
+import 'package:medicalapp/services/websocket_service.dart';
 import 'package:medicalapp/theme.dart';
 import 'package:medicalapp/widgets/chat_bubble.dart';
 
-class DetailChatPage extends StatelessWidget {
+class DetailChatPage extends StatefulWidget {
   const DetailChatPage({super.key});
+
+  @override
+  State<DetailChatPage> createState() => _DetailChatPageState();
+}
+
+class _DetailChatPageState extends State<DetailChatPage> {
+  final WebSocketService webSocketService = WebSocketService();
+  final TextEditingController messageController = TextEditingController();
+  int chatId = 3; // Example chat ID
+  int userId = 32; // Example user ID
+
+  @override
+  void initState() {
+    super.initState();
+    webSocketService.connect();
+    webSocketService.joinChat(3);
+  }
+
+  @override
+  void dispose() {
+    webSocketService.disconnect();
+    messageController.dispose();
+    super.dispose();
+  }
+
+  void sendMessage() {
+    final message = messageController.text;
+    if (message.isNotEmpty) {
+      webSocketService.sendMessage(chatId, userId, message);
+      messageController.clear();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +100,7 @@ class DetailChatPage extends StatelessWidget {
                     ),
                     child: Center(
                       child: TextFormField(
+                        controller: messageController,
                         decoration: InputDecoration.collapsed(
                           hintText: 'Type Message...',
                           hintStyle: subtitleTextStyle,
@@ -75,14 +110,17 @@ class DetailChatPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 20),
-                Container(
-                  height: 45,
-                  width: 45,
-                  decoration: BoxDecoration(
-                    color: primaryColor,
-                    borderRadius: BorderRadius.circular(12),
+                GestureDetector(
+                  onTap: sendMessage,
+                  child: Container(
+                    height: 45,
+                    width: 45,
+                    decoration: BoxDecoration(
+                      color: primaryColor,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(Icons.send, color: primaryTextColor),
                   ),
-                  child: Icon(Icons.send, color: primaryTextColor),
                 ),
               ],
             ),
@@ -92,18 +130,21 @@ class DetailChatPage extends StatelessWidget {
     }
 
     Widget content() {
-      return ListView(
-        padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-        children: const [
-          ChatBubble(
-            isSender: true,
-            text: 'Hi, Good Morning',
-          ),
-          ChatBubble(
-            isSender: false,
-            text: 'Hi, Good Morning',
-          ),
-        ],
+      return ValueListenableBuilder<List<MessageModel>>(
+        valueListenable: webSocketService.messages,
+        builder: (context, messages, _) {
+          return ListView.builder(
+            padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+            itemCount: messages.length,
+            itemBuilder: (context, index) {
+              final message = messages[index];
+              return ChatBubble(
+                isSender: message.sender_id == userId,
+                text: message.message,
+              );
+            },
+          );
+        },
       );
     }
 
