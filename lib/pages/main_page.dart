@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:medicalapp/pages/home/chat_page.dart';
 import 'package:medicalapp/pages/home/medicine_page.dart';
 import 'package:medicalapp/pages/home/profile_page.dart';
+import 'package:medicalapp/providers/auth_provider.dart';
 import 'package:medicalapp/theme.dart';
 import 'package:medicalapp/pages/home/home_page.dart';
+import 'package:provider/provider.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({this.initialIndex = 0, super.key});
@@ -32,6 +34,9 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final user = authProvider.user;
+
     Widget cartButton() {
       return FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, '/cart'),
@@ -136,7 +141,7 @@ class _MainPageState extends State<MainPage> {
 
     return Scaffold(
       backgroundColor: currentIndex == 0 ? backgroundColor1 : backgroundColor3,
-      floatingActionButton: cartButton(),
+      floatingActionButton: user.role == 'patient' ? cartButton() : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: customBottomNav(),
       body: IndexedStack(
