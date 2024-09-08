@@ -65,6 +65,8 @@ class _DetailMedicinePageState extends State<DetailMedicinePage> {
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context);
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final user = authProvider.user;
 
     Future<void> showSuccessDialog() async {
       return showDialog(
@@ -135,6 +137,39 @@ class _DetailMedicinePageState extends State<DetailMedicinePage> {
       );
     }
 
+    void addToCart() {
+      if (user.role == 'patient') {
+        cartProvider.addCart(widget.medicine);
+        showSuccessDialog();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: alertColor,
+            content: const Text(
+              'Only patients can add to cart',
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
+      }
+    }
+
+    void navigateToCart() {
+      if (user.role == 'patient') {
+        Navigator.pushNamed(context, '/cart');
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: alertColor,
+            content: const Text(
+              'Only patients can view cart',
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
+      }
+    }
+
     Widget indicator(int index) {
       return Container(
         width: currentIndex == index ? 16 : 4,
@@ -167,7 +202,7 @@ class _DetailMedicinePageState extends State<DetailMedicinePage> {
                   child: const Icon(Icons.chevron_left),
                 ),
                 GestureDetector(
-                  onTap: () => Navigator.pushNamed(context, '/cart'),
+                  onTap: navigateToCart,
                   child: Icon(
                     Icons.shopping_bag,
                     color: backgroundColor1,
@@ -299,6 +334,51 @@ class _DetailMedicinePageState extends State<DetailMedicinePage> {
     }
 
     Widget customBottomNav() {
+      final List<Widget> bottomNavItems = [];
+
+      if (user.role == 'patient') {
+        bottomNavItems.add(
+          GestureDetector(
+            onTap: creatChat,
+            child: Container(
+              width: 54,
+              height: 54,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: primaryColor),
+              ),
+              child: Icon(Icons.chat, color: primaryColor),
+            ),
+          ),
+        );
+        bottomNavItems.add(const SizedBox(width: 16));
+      }
+
+      bottomNavItems.add(
+        Expanded(
+          child: SizedBox(
+            width: 54,
+            height: 54,
+            child: TextButton(
+              onPressed: addToCart,
+              style: TextButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                backgroundColor: primaryColor,
+              ),
+              child: Text(
+                'Add to Cart',
+                style: primaryTextStyle.copyWith(
+                  fontSize: 16,
+                  fontWeight: semiBold,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+
       return Container(
         padding: EdgeInsets.symmetric(
           horizontal: defaultMargin,
@@ -306,46 +386,7 @@ class _DetailMedicinePageState extends State<DetailMedicinePage> {
         ),
         color: backgroundColor1,
         child: Row(
-          children: [
-            GestureDetector(
-              onTap: () => creatChat(),
-              child: Container(
-                width: 54,
-                height: 54,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: primaryColor),
-                ),
-                child: Icon(Icons.chat, color: primaryColor),
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: SizedBox(
-                width: 54,
-                height: 54,
-                child: TextButton(
-                  onPressed: () {
-                    cartProvider.addCart(widget.medicine);
-                    showSuccessDialog();
-                  },
-                  style: TextButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    backgroundColor: primaryColor,
-                  ),
-                  child: Text(
-                    'Add to Cart',
-                    style: primaryTextStyle.copyWith(
-                      fontSize: 16,
-                      fontWeight: semiBold,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
+          children: bottomNavItems,
         ),
       );
     }
