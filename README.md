@@ -60,8 +60,6 @@ flutter build ios   # For iOS
 
 ## Project Structure
 
-<details>
-
 ```sh
 assets/
 │
@@ -131,8 +129,6 @@ lib/
 
 pubspec.yaml            # Dependensi proyek
 ```
-
-</details>
 
 ## Dependencies
 
