@@ -4,13 +4,22 @@ import 'package:medicalapp/theme.dart';
 import 'package:medicalapp/widgets/medicine_card.dart';
 import 'package:provider/provider.dart';
 
-class MedicinePage extends StatelessWidget {
+class MedicinePage extends StatefulWidget {
   const MedicinePage({super.key});
+
+  @override
+  State<MedicinePage> createState() => _MedicinePageState();
+}
+
+class _MedicinePageState extends State<MedicinePage> {
+  String searchQuery = '';
 
   @override
   Widget build(BuildContext context) {
     final medicineProvider = Provider.of<MedicineProvider>(context);
-    final medicines = medicineProvider.medicines;
+    final medicines = medicineProvider.medicines.where((medicine) {
+      return medicine.name!.toLowerCase().contains(searchQuery.toLowerCase());
+    }).toList();
 
     Widget header() {
       return AppBar(
@@ -25,6 +34,30 @@ class MedicinePage extends StatelessWidget {
         ),
         elevation: 0,
         automaticallyImplyLeading: false,
+      );
+    }
+
+    Widget searchBar() {
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: defaultMargin, vertical: 10),
+        child: TextField(
+          onChanged: (value) {
+            setState(() {
+              searchQuery = value;
+            });
+          },
+          decoration: InputDecoration(
+            hintText: 'Search Medicines...',
+            prefixIcon: Icon(Icons.search, color: secondaryTextColor),
+            filled: true,
+            fillColor: backgroundColor6,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+            ),
+            contentPadding: const EdgeInsets.all(16),
+          ),
+        ),
       );
     }
 
@@ -85,11 +118,14 @@ class MedicinePage extends StatelessWidget {
       return Expanded(
         child: Container(
           color: backgroundColor3,
-          child: ListView(
-            padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-            children:
-                medicines.map((medicine) => MedicineCard(medicine)).toList(),
-          ),
+          child: medicines.isEmpty
+              ? empty()
+              : ListView(
+                  padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+                  children: medicines
+                      .map((medicine) => MedicineCard(medicine))
+                      .toList(),
+                ),
         ),
       );
     }
@@ -97,7 +133,7 @@ class MedicinePage extends StatelessWidget {
     return Column(
       children: [
         header(),
-        // empty(),
+        searchBar(),
         content(),
       ],
     );
