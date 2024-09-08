@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:medicalapp/models/medicine_model.dart';
 import 'package:medicalapp/pages/edit_profile_page.dart';
 import 'package:medicalapp/providers/cart_provider.dart';
@@ -17,7 +18,9 @@ import 'package:medicalapp/pages/splash_page.dart';
 import 'package:medicalapp/providers/auth_provider.dart';
 import 'package:medicalapp/widgets/auth_guard.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(); // Load .env file
   runApp(const MyApp());
 }
 
