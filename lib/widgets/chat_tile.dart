@@ -21,8 +21,10 @@ class ChatTile extends StatelessWidget {
       return Container(); // Or handle the empty state as needed
     }
 
-    final String name =
-        user!.role == 'doctor' ? chat.user!.name : chat.doctor!.user.name;
+    // Handle null chat.user or chat.doctor
+    final String name = user?.role == 'doctor'
+        ? chat.user?.name ?? 'Unknown User'
+        : chat.doctor?.user.name ?? 'Unknown Doctor';
 
     return GestureDetector(
       onTap: () {
@@ -30,7 +32,7 @@ class ChatTile extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) =>
-                DetailChatPage(chatId: chat.id, userId: user.id, name: name),
+                DetailChatPage(chatId: chat.id, userId: user!.id, name: name),
           ),
         );
       },
