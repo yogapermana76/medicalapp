@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:medicalapp/models/user_model.dart';
 import 'package:medicalapp/services/auth_service.dart';
+import 'package:medicalapp/utils/local_torage.utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider with ChangeNotifier {
-  late UserModel _user;
+  UserModel? _user;
 
-  UserModel get user => _user;
+  UserModel get user => _user!;
+
+  bool get isAuthenticated => _user != null;
 
   set user(UserModel user) {
     _user = user;
@@ -41,9 +45,27 @@ class AuthProvider with ChangeNotifier {
       );
 
       _user = user;
+
+      // Save user data to SharedPreferences
+      await saveObject<UserModel>('user', user, UserModel.fromJson);
+
       return true;
     } catch (e) {
       rethrow;
     }
+  }
+
+  Future<void> loadUser() async {
+    final user = await getObject<UserModel>('user', UserModel.fromJson);
+    _user = user;
+    notifyListeners();
+  }
+
+  void logout() async {
+    _user = null;
+    // Clear user data from SharedPreferences
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('user');
+    notifyListeners();
   }
 }
