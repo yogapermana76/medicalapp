@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:medicalapp/providers/auth_provider.dart';
 import 'package:medicalapp/providers/cart_provider.dart';
 import 'package:medicalapp/providers/order_provider.dart';
 import 'package:medicalapp/theme.dart';
 import 'package:medicalapp/utils/format_number.dart';
+import 'package:medicalapp/utils/local_torage.utils.dart';
 import 'package:medicalapp/widgets/checkout_card.dart';
 import 'package:medicalapp/widgets/loading_button.dart';
 import 'package:provider/provider.dart';
@@ -23,16 +23,17 @@ class _CheckoutPageState extends State<CheckoutPage> {
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context);
     final orderProvider = Provider.of<OrderProvider>(context);
-    final authProvider = Provider.of<AuthProvider>(context);
 
     handleCheckout() async {
       setState(() {
         isLoading = true;
       });
 
+      final String? token = await getString('token');
+
       try {
         await orderProvider.checkout(
-          authProvider.user!.token!,
+          token!,
           cartProvider.carts,
           cartProvider.totalPrice(),
         );
@@ -53,7 +54,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            behavior: SnackBarBehavior.values[2],
+            behavior: SnackBarBehavior.floating,
             backgroundColor: alertColor,
             content: Text(
               errorMessage,
