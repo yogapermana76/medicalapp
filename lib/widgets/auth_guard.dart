@@ -13,7 +13,7 @@ class AuthGuard extends StatelessWidget {
     final authProvider = Provider.of<AuthProvider>(context);
     final user = authProvider.user;
 
-    if (user.token != null) {
+    if (user?.token != null) {
       return child;
     } else {
       return const LoginPage();

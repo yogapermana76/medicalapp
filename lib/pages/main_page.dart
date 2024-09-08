@@ -141,7 +141,7 @@ class _MainPageState extends State<MainPage> {
 
     return Scaffold(
       backgroundColor: currentIndex == 0 ? backgroundColor1 : backgroundColor3,
-      floatingActionButton: user.role == 'patient' ? cartButton() : null,
+      floatingActionButton: user?.role == 'patient' ? cartButton() : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: customBottomNav(),
       body: IndexedStack(

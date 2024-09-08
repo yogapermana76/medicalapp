@@ -32,7 +32,7 @@ class _DetailMedicinePageState extends State<DetailMedicinePage> {
 
     try {
       final chat =
-          await ChatService().createChat(userId: user.id, doctorId: 32);
+          await ChatService().createChat(userId: user!.id, doctorId: 32);
 
       if (mounted) {
         Navigator.push(
@@ -138,7 +138,7 @@ class _DetailMedicinePageState extends State<DetailMedicinePage> {
     }
 
     void addToCart() {
-      if (user.role == 'patient') {
+      if (user?.role == 'patient') {
         cartProvider.addCart(widget.medicine);
         showSuccessDialog();
       } else {
@@ -155,7 +155,7 @@ class _DetailMedicinePageState extends State<DetailMedicinePage> {
     }
 
     void navigateToCart() {
-      if (user.role == 'patient') {
+      if (user?.role == 'patient') {
         Navigator.pushNamed(context, '/cart');
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -336,7 +336,7 @@ class _DetailMedicinePageState extends State<DetailMedicinePage> {
     Widget customBottomNav() {
       final List<Widget> bottomNavItems = [];
 
-      if (user.role == 'patient') {
+      if (user?.role == 'patient') {
         bottomNavItems.add(
           GestureDetector(
             onTap: creatChat,

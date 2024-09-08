@@ -29,7 +29,7 @@ class _ChatPageState extends State<ChatPage> {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       final user = authProvider.user;
 
-      final chats = await ChatService().getChats(userId: user.id);
+      final chats = await ChatService().getChats(userId: user!.id);
 
       setState(() {
         this.chats.clear();

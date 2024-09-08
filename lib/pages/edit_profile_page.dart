@@ -52,7 +52,7 @@ class EditProfilePage extends StatelessWidget {
             TextFormField(
               style: primaryTextStyle,
               decoration: InputDecoration(
-                hintText: user.name,
+                hintText: user?.name,
                 hintStyle: primaryTextStyle,
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: subtitleColor),
@@ -77,7 +77,7 @@ class EditProfilePage extends StatelessWidget {
             TextFormField(
               style: primaryTextStyle,
               decoration: InputDecoration(
-                hintText: user.email,
+                hintText: user?.email,
                 hintStyle: primaryTextStyle,
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: subtitleColor),

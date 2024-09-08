@@ -31,7 +31,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
       try {
         await orderProvider.checkout(
-          authProvider.user.token!,
+          authProvider.user!.token!,
           cartProvider.carts,
           cartProvider.totalPrice(),
         );
@@ -49,6 +49,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
         });
       } catch (e) {
         final errorMessage = e.toString();
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             behavior: SnackBarBehavior.values[2],

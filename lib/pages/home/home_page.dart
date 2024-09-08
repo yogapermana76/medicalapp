@@ -32,7 +32,7 @@ class HomePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Hallo, ${user.name}',
+                    'Hallo, ${user?.name ?? 'Guest'}', // Provide a default value
                     style: primaryTextStyle.copyWith(
                       fontSize: 24,
                       fontWeight: semiBold,
@@ -41,7 +41,7 @@ class HomePage extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    user.email,
+                    user?.email ?? 'No email', // Provide a default value
                     style: subtitleTextStyle.copyWith(fontSize: 16),
                   ),
                 ],
