@@ -15,6 +15,7 @@ import 'package:medicalapp/pages/detail_medicine_page.dart';
 import 'package:medicalapp/pages/register_page.dart';
 import 'package:medicalapp/pages/splash_page.dart';
 import 'package:medicalapp/providers/auth_provider.dart';
+import 'package:medicalapp/widgets/auth_guard.dart';
 
 void main() {
   runApp(const MyApp());
@@ -51,17 +52,20 @@ class MyApp extends StatelessWidget {
             '/detail-chat': (context) {
               final args = ModalRoute.of(context)!.settings.arguments
                   as Map<String, int>;
-              return DetailChatPage(
-                chatId: args['chatId']!,
-                userId: args['userId']!,
+              return AuthGuard(
+                child: DetailChatPage(
+                  chatId: args['chatId']!,
+                  userId: args['userId']!,
+                ),
               );
             },
-            '/detail-medicine': (contex) =>
-                DetailMedicinePage(context as MedicineModel),
-            '/edit-profile': (_) => const EditProfilePage(),
-            '/cart': (_) => const CartPage(),
-            '/checkout': (_) => const CheckoutPage(),
-            '/checkout-success': (_) => const CheckoutSuccessPage(),
+            '/detail-medicine': (context) =>
+                AuthGuard(child: DetailMedicinePage(context as MedicineModel)),
+            '/edit-profile': (_) => const AuthGuard(child: EditProfilePage()),
+            '/cart': (_) => const AuthGuard(child: CartPage()),
+            '/checkout': (_) => const AuthGuard(child: CheckoutPage()),
+            '/checkout-success': (_) =>
+                const AuthGuard(child: CheckoutSuccessPage()),
           },
         ));
   }
