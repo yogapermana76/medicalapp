@@ -11,6 +11,12 @@ class ProfilePage extends StatelessWidget {
     final authProvider = Provider.of<AuthProvider>(context);
     final user = authProvider.user;
 
+    void signOut() async {
+      await authProvider.logout();
+      // ignore: use_build_context_synchronously
+      Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+    }
+
     Widget header() {
       return AppBar(
         backgroundColor: backgroundColor1,
@@ -31,27 +37,21 @@ class ProfilePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Hallo, ${user.name}',
+                        'Hallo, ${user?.name ?? 'Guest'}', // Provide a default value
                         style: primaryTextStyle.copyWith(
                           fontSize: 24,
                           fontWeight: semiBold,
                         ),
                       ),
                       Text(
-                        user.email,
+                        user?.email ?? 'No email', // Provide a default value
                         style: subtitleTextStyle.copyWith(fontSize: 16),
                       ),
                     ],
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      '/login',
-                      (_) => false,
-                    );
-                  },
+                  onTap: signOut,
                   child: Icon(Icons.logout, color: primaryColor),
                 ),
               ],
