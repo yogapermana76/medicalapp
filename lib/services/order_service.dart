@@ -1,10 +1,11 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:medicalapp/config/app_config.dart';
 import 'package:medicalapp/models/cart_model.dart';
 
 class OrderService {
-  final String baseUrl = 'http://127.0.0.1:3000/api';
+  final String baseUrl = '${AppConfig.apiUrl}/api';
 
   Future<bool> checkout(
     String token,

@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:medicalapp/config/app_config.dart';
 import 'package:medicalapp/models/message_model.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
@@ -22,8 +23,10 @@ class WebSocketService {
       return; // Prevent reconnecting if already connected
     }
 
+    final String baseUrl = AppConfig.apiUrl;
+
     socket = io.io(
-      'http://localhost:3000',
+      baseUrl,
       io.OptionBuilder()
           .setTransports(['websocket']) // Use websocket transport
           .enableReconnection() // Enable automatic reconnections

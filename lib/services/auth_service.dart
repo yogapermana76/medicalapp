@@ -1,12 +1,13 @@
 import 'dart:convert';
 
+import 'package:medicalapp/config/app_config.dart';
 import 'package:medicalapp/models/user_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:medicalapp/utils/error.utils.dart';
 import 'package:medicalapp/utils/local_torage.utils.dart';
 
 class AuthService {
-  final String baseUrl = 'http://127.0.0.1:3000/api';
+  final String baseUrl = '${AppConfig.apiUrl}/api';
 
   Future<UserModel> register({
     required String name,
