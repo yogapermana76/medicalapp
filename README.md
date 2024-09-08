@@ -58,6 +58,12 @@ flutter build ios   # For iOS
    flutter pub get
    ```
 
+## Environment Variables
+
+```sh
+API_URL=
+```
+
 ## Project Structure
 
 ```sh
