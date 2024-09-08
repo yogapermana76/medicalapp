@@ -62,80 +62,75 @@ class _MedicinePageState extends State<MedicinePage> {
     }
 
     Widget empty() {
-      return Expanded(
-        child: Container(
-          width: double.infinity,
-          color: backgroundColor3,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.medical_information_outlined,
-                  size: 80, color: primaryColor),
-              const SizedBox(height: 23),
-              Text(
-                'Opss no medicine yet?',
-                style: primaryTextStyle.copyWith(
-                  fontSize: 16,
-                  fontWeight: medium,
-                ),
+      return Container(
+        width: double.infinity,
+        color: backgroundColor3,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.medical_information_outlined,
+                size: 80, color: primaryColor),
+            const SizedBox(height: 23),
+            Text(
+              'Opss no medicine yet?',
+              style: primaryTextStyle.copyWith(
+                fontSize: 16,
+                fontWeight: medium,
               ),
-              const SizedBox(height: 12),
-              Text(
-                'Wait for the best medicine',
-                style: secondaryTextStyle,
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                height: 44,
-                child: TextButton(
-                  onPressed: () {},
-                  style: TextButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 10,
-                    ),
-                    backgroundColor: primaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              'Wait for the best medicine',
+              style: secondaryTextStyle,
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              height: 44,
+              child: TextButton(
+                onPressed: () {},
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 10,
                   ),
-                  child: Text(
-                    'Contact Us',
-                    style: primaryTextStyle.copyWith(
-                      fontSize: 16,
-                      fontWeight: medium,
-                    ),
+                  backgroundColor: primaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: Text(
+                  'Contact Us',
+                  style: primaryTextStyle.copyWith(
+                    fontSize: 16,
+                    fontWeight: medium,
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       );
     }
 
     Widget content() {
-      return Expanded(
-        child: Container(
-          color: backgroundColor3,
-          child: medicines.isEmpty
-              ? empty()
-              : ListView(
-                  padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-                  children: medicines
-                      .map((medicine) => MedicineCard(medicine))
-                      .toList(),
-                ),
-        ),
-      );
+      return medicines.isEmpty
+          ? empty()
+          : ListView(
+              padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+              children:
+                  medicines.map((medicine) => MedicineCard(medicine)).toList(),
+            );
     }
 
-    return Column(
-      children: [
-        header(),
-        searchBar(),
-        content(),
-      ],
+    return Scaffold(
+      backgroundColor: backgroundColor1, // Set the background color here
+      body: Column(
+        children: [
+          header(),
+          searchBar(),
+          Expanded(child: content()),
+        ],
+      ),
     );
   }
 }
