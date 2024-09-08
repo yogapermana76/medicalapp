@@ -7,11 +7,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AuthProvider with ChangeNotifier {
   UserModel? _user;
 
-  UserModel get user => _user!;
+  UserModel? get user => _user; // Allow null values
 
   bool get isAuthenticated => _user != null;
 
-  set user(UserModel user) {
+  set user(UserModel? user) {
     _user = user;
     notifyListeners();
   }
@@ -61,7 +61,7 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void logout() async {
+  Future<void> logout() async {
     _user = null;
     // Clear user data from SharedPreferences
     final prefs = await SharedPreferences.getInstance();
