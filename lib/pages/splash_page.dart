@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:medicalapp/providers/auth_provider.dart';
 import 'package:medicalapp/providers/medicine_provider.dart';
 import 'package:medicalapp/theme.dart';
 import 'package:provider/provider.dart';
@@ -15,15 +16,25 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
-    getInit();
     super.initState();
+    _initializeApp();
   }
 
-  getInit() async {
+  Future<void> _initializeApp() async {
     await Provider.of<MedicineProvider>(context, listen: false).getMedicines();
-    if (mounted) {
-      Timer(const Duration(seconds: 2),
-          () => Navigator.pushNamed(context, '/login'));
+
+    // ignore: use_build_context_synchronously
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    await authProvider.loadUser(); // Load user from SharedPreferences
+
+    if (authProvider.isAuthenticated) {
+      Timer(const Duration(seconds: 2), () {
+        Navigator.pushReplacementNamed(context, '/home');
+      });
+    } else {
+      Timer(const Duration(seconds: 2), () {
+        Navigator.pushReplacementNamed(context, '/login');
+      });
     }
   }
 
