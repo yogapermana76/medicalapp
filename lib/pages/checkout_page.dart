@@ -4,6 +4,7 @@ import 'package:medicalapp/providers/auth_provider.dart';
 import 'package:medicalapp/providers/cart_provider.dart';
 import 'package:medicalapp/providers/order_provider.dart';
 import 'package:medicalapp/theme.dart';
+import 'package:medicalapp/utils/format_number.dart';
 import 'package:medicalapp/widgets/checkout_card.dart';
 import 'package:medicalapp/widgets/loading_button.dart';
 import 'package:provider/provider.dart';
@@ -252,7 +253,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       style: secondaryTextStyle.copyWith(fontSize: 12),
                     ),
                     Text(
-                      'Rp. ${cartProvider.totalPrice()}',
+                      NumberUtils.formatPrice(cartProvider.totalPrice()),
                       style: primaryTextStyle.copyWith(fontWeight: medium),
                     ),
                   ],
@@ -285,7 +286,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       style: priceTextStyle.copyWith(fontWeight: semiBold),
                     ),
                     Text(
-                      'Rp. ${cartProvider.totalPrice()}',
+                      NumberUtils.formatPrice(cartProvider.totalPrice()),
                       style: priceTextStyle.copyWith(fontWeight: semiBold),
                     ),
                   ],

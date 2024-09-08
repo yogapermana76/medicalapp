@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:medicalapp/models/cart_model.dart';
 import 'package:medicalapp/providers/cart_provider.dart';
 import 'package:medicalapp/theme.dart';
+import 'package:medicalapp/utils/format_number.dart';
 import 'package:provider/provider.dart';
 
 class CartCard extends StatelessWidget {
@@ -43,7 +44,7 @@ class CartCard extends StatelessWidget {
                       style: primaryTextStyle.copyWith(fontWeight: semiBold),
                     ),
                     Text(
-                      'Rp. ${cart.medicine.price}',
+                      NumberUtils.formatPrice(cart.medicine.price!),
                       style: priceTextStyle,
                     ),
                   ],

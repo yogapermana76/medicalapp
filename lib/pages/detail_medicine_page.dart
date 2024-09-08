@@ -6,6 +6,7 @@ import 'package:medicalapp/providers/auth_provider.dart';
 import 'package:medicalapp/providers/cart_provider.dart';
 import 'package:medicalapp/services/chat_service.dart';
 import 'package:medicalapp/theme.dart';
+import 'package:medicalapp/utils/format_number.dart';
 import 'package:provider/provider.dart';
 
 class DetailMedicinePage extends StatefulWidget {
@@ -297,7 +298,7 @@ class _DetailMedicinePageState extends State<DetailMedicinePage> {
                         style: primaryTextStyle,
                       ),
                       Text(
-                        'Rp. ${widget.medicine.price}',
+                        NumberUtils.formatPrice(widget.medicine.price!),
                         style: priceTextStyle.copyWith(
                           fontSize: 16,
                           fontWeight: semiBold,

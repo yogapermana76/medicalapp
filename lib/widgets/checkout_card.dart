@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medicalapp/models/cart_model.dart';
 import 'package:medicalapp/theme.dart';
+import 'package:medicalapp/utils/format_number.dart';
 
 class CheckoutCard extends StatelessWidget {
   const CheckoutCard(this.cart, {super.key});
@@ -40,7 +41,7 @@ class CheckoutCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 2),
                 Text(
-                  'Rp. ${cart.medicine.price}',
+                  NumberUtils.formatPrice(cart.medicine.price!),
                   style: priceTextStyle,
                 ),
               ],

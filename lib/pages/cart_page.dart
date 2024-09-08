@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:medicalapp/pages/main_page.dart';
 import 'package:medicalapp/providers/cart_provider.dart';
 import 'package:medicalapp/theme.dart';
+import 'package:medicalapp/utils/format_number.dart';
 import 'package:medicalapp/widgets/cart_card.dart';
 import 'package:provider/provider.dart';
 
@@ -110,7 +111,7 @@ class CartPage extends StatelessWidget {
                     style: primaryTextStyle,
                   ),
                   Text(
-                    'Rp. ${cartProvider.totalPrice()}',
+                    NumberUtils.formatPrice(cartProvider.totalPrice()),
                     style: priceTextStyle.copyWith(
                       fontSize: 16,
                       fontWeight: semiBold,

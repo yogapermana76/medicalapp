@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:medicalapp/models/medicine_model.dart';
 import 'package:medicalapp/pages/detail_medicine_page.dart';
 import 'package:medicalapp/theme.dart';
+import 'package:medicalapp/utils/format_number.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard(this.medicine, {super.key});
@@ -51,7 +52,7 @@ class ProductCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      'Rp. ${medicine.price}',
+                      NumberUtils.formatPrice(medicine.price!),
                       style: priceTextStyle.copyWith(fontWeight: medium),
                     ),
                   ],
