@@ -17,41 +17,47 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   final List<ChatModel> chats = [];
+  bool isLoading = false;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     getChats();
   }
 
-  void getChats() async {
+  Future<void> getChats() async {
+    if (isLoading) return; // Prevent multiple simultaneous loads
+    setState(() {
+      isLoading = true;
+    });
+
     try {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       final user = authProvider.user;
 
-      final chats = await ChatService().getChats(userId: user!.id);
+      if (user != null) {
+        final fetchedChats = await ChatService().getChats(userId: user.id);
 
-      setState(() {
-        this.chats.clear();
-        this.chats.addAll(chats);
-      });
+        if (mounted) {
+          setState(() {
+            chats.clear();
+            chats.addAll(fetchedChats);
+          });
+        }
+      }
     } catch (e) {
       throw extractErrorMessage(e.toString());
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
-  }
-
-  void reloadData() {
-    getChats();
   }
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (ModalRoute.of(context)?.isCurrent == true) {
-        reloadData();
-      }
-    });
-
     Widget header() {
       return AppBar(
         backgroundColor: backgroundColor1,
@@ -146,7 +152,9 @@ class _ChatPageState extends State<ChatPage> {
     return Column(
       children: [
         header(),
-        chats.isEmpty ? emptyChat() : content(),
+        isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : (chats.isEmpty ? emptyChat() : content()),
       ],
     );
   }
