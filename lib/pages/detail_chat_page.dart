@@ -9,11 +9,13 @@ import 'package:medicalapp/widgets/chat_bubble.dart';
 class DetailChatPage extends StatefulWidget {
   final int chatId;
   final int userId;
+  final String name;
 
   const DetailChatPage({
     super.key,
     required this.chatId,
     required this.userId,
+    required this.name,
   });
 
   @override
@@ -113,7 +115,7 @@ class _DetailChatPageState extends State<DetailChatPage>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Permana',
+                    widget.name,
                     style: primaryTextStyle.copyWith(
                       fontWeight: medium,
                       fontSize: 14,

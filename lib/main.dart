@@ -59,6 +59,7 @@ class MyApp extends StatelessWidget {
                 child: DetailChatPage(
                   chatId: args['chatId']!,
                   userId: args['userId']!,
+                  name: args['name'] as String,
                 ),
               );
             },

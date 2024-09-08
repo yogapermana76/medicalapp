@@ -42,6 +42,7 @@ class _DetailMedicinePageState extends State<DetailMedicinePage> {
             builder: (context) => DetailChatPage(
               chatId: chat.id,
               userId: user.id,
+              name: chat.doctor!.user.name,
             ),
           ),
         );

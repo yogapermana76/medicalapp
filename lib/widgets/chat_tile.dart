@@ -21,15 +21,16 @@ class ChatTile extends StatelessWidget {
       return Container(); // Or handle the empty state as needed
     }
 
+    final String name =
+        user!.role == 'doctor' ? chat.user!.name : chat.doctor!.user.name;
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DetailChatPage(
-              chatId: chat.id,
-              userId: user!.id,
-            ),
+            builder: (context) =>
+                DetailChatPage(chatId: chat.id, userId: user.id, name: name),
           ),
         );
       },
@@ -46,7 +47,7 @@ class ChatTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Permana',
+                        name,
                         style: primaryTextStyle.copyWith(fontSize: 15),
                       ),
                       Text(
